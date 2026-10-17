@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.2.2",
-  "notes": "Staging foundation: distinguish full-library and single-character imports, add Settings recovery, update creator label; isolated staging storage retained."
+  "version": "3.0.0-alpha.3.0",
+  "notes": "V3.0B Alpha 1: 2014 guided/manual creator, standard array assignment, resume library drafts; staging only."
 }
