@@ -1,1 +1,4 @@
-{"version":"3.0.0-alpha.1","notes":"V3.0A unified Guided/Manual creator draft foundation, preserving V2.9.5 character storage."}
+{
+  "version": "3.0.0-alpha.2",
+  "notes": "Alpha 2: safer imports, optional recovery snapshot, unfinished character protection, corrected version label."
+}

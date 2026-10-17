@@ -1,5 +1,5 @@
-// Wayfarer’s Tome V3.0A alpha 1 — offline app shell, same-origin only.
-const CACHE='kiran-companion-shell-v3.0.0-alpha.1';
+// Wayfarer’s Tome V3.0A alpha 2 — offline app shell, same-origin only.
+const CACHE='kiran-companion-shell-v3.0.0-alpha.2';
 const SHELL=['./','./index.html'];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting()));
