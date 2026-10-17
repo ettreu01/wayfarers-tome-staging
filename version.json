@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.2",
-  "notes": "Alpha 2: safer imports, optional recovery snapshot, unfinished character protection, corrected version label."
+  "version": "3.0.0-alpha.2.1",
+  "notes": "Staging isolation hotfix: separate storage keys and service-worker cache namespace; no automatic migration."
 }
