@@ -1,0 +1,613 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#10251f"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>Wayfarer’s Tome · Sylvaeren Studios</title><script>try{var savedTheme=localStorage.getItem('kiran-companion-theme-v1');if(['forest','amethyst','obsidian'].includes(savedTheme))document.documentElement.dataset.theme=savedTheme}catch(e){}</script><style>
+:root{color-scheme:dark;--bg:#0c1916;--panel:#172923;--line:#345145;--gold:#e8c98c;--text:#f1ecdb;--muted:#aab9aa;--green:#68a78a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#244439,#0c1916 65%);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,system-ui,sans-serif;min-height:100vh}.wrap{max-width:650px;margin:auto;padding:env(safe-area-inset-top) 16px calc(92px + env(safe-area-inset-bottom))}header{padding:26px 0 15px;text-align:center}header .eyebrow{font-size:10px;letter-spacing:3px;color:var(--gold)}h1{font:normal 34px Georgia,serif;margin:5px 0}h2{font:normal 25px Georgia,serif;color:var(--gold);margin:0 0 15px}h3{margin:0 0 10px;color:var(--gold);font:normal 19px Georgia,serif}p{line-height:1.55}.sub{color:var(--muted);font-size:13px}.panel{border:1px solid var(--line);border-radius:17px;background:linear-gradient(140deg,#1a3028,#12221d);padding:17px;margin:13px 0;box-shadow:0 6px 18px #0002}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{text-align:center;padding:14px 5px;border:1px solid var(--line);border-radius:12px;background:#0c1c17}.stat strong{display:block;font:25px Georgia,serif;color:var(--gold)}.stat span{font-size:11px;color:var(--muted)}button{font:inherit;cursor:pointer;border:1px solid #587663;background:#254b3c;color:var(--text);padding:11px 14px;border-radius:11px;min-height:42px}button:active{transform:scale(.98)}button.secondary{background:#152a23}button.gold{background:#806337;border-color:#b8985c}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.actions button{flex:1}.bar{height:12px;border-radius:20px;background:#3d2829;overflow:hidden;margin:12px 0}.bar div{height:100%;background:linear-gradient(90deg,#a63f47,#74b58e);transition:width .2s}.big{font:36px Georgia,serif;color:var(--gold)}input,textarea,select{width:100%;border:1px solid #4c6858;border-radius:10px;padding:11px;color:var(--text);background:#0e211b;font:inherit}textarea{min-height:95px;resize:vertical}label{display:block;color:var(--muted);font-size:12px;margin:11px 0 5px}.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #2c4639}.row:last-child{border-bottom:0}.tag{color:var(--gold);font-size:12px}.tabs{position:fixed;bottom:0;left:0;right:0;background:#10231df2;border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:10;backdrop-filter:blur(12px)}.tabs button{background:transparent;border:0;font-size:10px;flex:1;max-width:110px;padding:6px 2px;min-height:49px;color:var(--muted)}.tabs button.active{color:var(--gold)}.tabs b{display:block;font-size:21px;margin-bottom:2px}.hidden{display:none}.note{white-space:pre-wrap}.split{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tiny{font-size:12px}.empty{color:var(--muted);font-style:italic}details{margin-top:12px}summary{cursor:pointer;color:var(--gold)}.pill{display:inline-block;border:1px solid #607761;border-radius:20px;padding:5px 9px;font-size:12px;margin:3px}.roll{font:38px Georgia,serif;text-align:center;color:var(--gold);padding:20px}.footer{font-size:11px;color:var(--muted);text-align:center;padding:18px 0}
+.journal-tabs{display:flex;gap:7px;overflow:auto;margin-bottom:12px}.journal-tabs button{white-space:nowrap;flex:1;padding:9px 7px;font-size:12px}.journal-tabs button.selected{background:#806337;border-color:#b8985c}.sketchpad{display:block;width:100%;height:auto;aspect-ratio:4/3;background:#f2e8cd;border-radius:12px;touch-action:none;border:2px solid #b59e73}.ink-tools{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:12px 0}.ink-tools input[type=color]{width:45px;height:42px;padding:3px}.ink-tools input[type=range]{width:90px}.thumb{width:100%;max-height:170px;object-fit:contain;background:#e8ddbf;border-radius:9px}.entry-meta{color:var(--muted);font-size:12px;margin:5px 0}.status{color:var(--gold);font-size:12px;min-height:18px}.note{overflow-wrap:anywhere}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--gold)}
+
+.update-banner{position:sticky;top:0;z-index:20;background:#244535;border:1px solid #c5a76e;border-radius:12px;padding:12px;margin:8px 0 12px;box-shadow:0 4px 20px #0006}.update-banner p{margin:5px 0 10px;font-size:13px}.update-banner .actions{margin-top:6px}.update-banner button{min-height:38px}.update-status{font-size:12px;color:var(--muted);margin-top:8px}
+
+.sheet-tabs{display:flex;gap:7px;overflow:auto;margin:10px 0}.sheet-tabs button{flex:1;white-space:nowrap;padding:9px 5px;font-size:12px}.sheet-tabs .selected{background:#806337}.sheet-list .row{gap:7px}.sheet-list .row span{flex:1}.sheet-list select{width:auto;min-width:102px;padding:6px;font-size:12px}.sheet-list button{padding:6px 9px;min-height:34px}.sheet-small{font-size:12px;color:var(--muted)}.sheet-editor{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.sheet-editor label{margin-top:2px}.sheet-editor input{margin-top:4px}.sheet-editor .wide{grid-column:1/-1}.sheet-feature{border-bottom:1px solid var(--line);padding:11px 0}.sheet-feature:last-child{border:0}
+
+.combat-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.combat-grid label{font-size:12px;color:var(--muted)}.combat-grid select,.combat-grid input{margin-top:5px}.combat-check{display:flex;gap:9px;align-items:flex-start;margin:10px 0;color:var(--text)}.combat-check input{width:auto;margin:3px 0 0;accent-color:var(--gold)}.combat-result{border:1px solid #a68852;border-radius:12px;padding:14px;background:#182d23;margin-top:13px;white-space:pre-wrap;line-height:1.6}.condition-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.condition-list label{padding:9px;border:1px solid var(--line);border-radius:9px;font-size:13px}.condition-list input{width:auto;margin-right:6px;accent-color:var(--gold)}.combat-help{font-size:12px;color:var(--muted)}
+
+.settings-gear{position:absolute;right:0;top:17px;background:#1b362b;border:1px solid var(--line);font-size:22px;padding:7px 11px;min-height:40px}header{position:relative;padding-right:44px;padding-left:44px}.combat-log-item{padding:12px 0;border-bottom:1px solid var(--line)}.combat-log-item:last-child{border-bottom:0}.combat-log-item p{white-space:pre-wrap;overflow-wrap:anywhere;margin:6px 0}.combat-log-item .actions button{font-size:12px;padding:7px 9px}
+/* V2.5 optional learning mode */
+.learn-switch{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0;padding:12px 14px;border:1px solid #6d7959;border-radius:12px;background:#1d352b}.learn-switch label{margin:0;display:flex;gap:10px;align-items:center;font-weight:600}.learn-switch input{width:22px;height:22px;accent-color:#e8c98c}.learn-switch small{color:#b9c5b5;display:block;font-weight:400;margin-top:3px}.learn-hint{border-left:3px solid #c9aa6e;background:#22382d;padding:10px 12px;border-radius:0 9px 9px 0;font-size:13px;line-height:1.55;margin:12px 0}.learn-hint strong{color:#f0d6a0}.learning-off .learn-hint,.learning-off .learn-only{display:none!important}.turn-option{padding:12px;border:1px solid var(--line);border-radius:12px;margin:8px 0;background:#10251f}.turn-option label{display:flex;align-items:center;gap:10px;margin:0;font-weight:600}.turn-option input{width:21px;height:21px;accent-color:#e8c98c}.turn-option p{margin:7px 0 0 31px}.turn-option.done{opacity:.62}.turn-option.done label{text-decoration:line-through}.guide-tabs{display:flex;gap:6px;flex-wrap:wrap}.guide-tabs button{flex:1;min-width:90px}.guide-tabs .selected{background:#806337}.guide-card{margin:10px 0;border-bottom:1px solid var(--line);padding:7px 0 13px}.guide-card h3{font-size:17px}.guide-card p{margin:6px 0}.guide-badge{color:#d9bf89;font-size:12px}.learn-toggle-inline{margin:8px 0}
+
+/* V2.7 visual system: consistent stroke icons, restrained fantasy, accessible touch targets */
+:root{--bg:#0b1513;--panel:#172722;--line:#41584a;--gold:#e4c88d;--text:#f5f0e5;--muted:#b6c5ba;--green:#8cbaa1}
+body{background:radial-gradient(ellipse 110% 440px at 50% -120px,#28453a 0%,#10231d 56%,#0b1513 100%);letter-spacing:.005em}
+.wrap{max-width:700px;padding-left:clamp(12px,4vw,22px);padding-right:clamp(12px,4vw,22px)}
+header{padding-top:24px;padding-bottom:12px}
+header .eyebrow{letter-spacing:.23em;font-size:10px}
+h1{font-size:clamp(29px,7vw,39px);letter-spacing:-.035em;line-height:1.1}
+h2{font-size:26px;letter-spacing:-.02em}
+.panel{background:linear-gradient(155deg,rgba(31,53,43,.95),rgba(18,34,28,.98));border:1px solid #41594a;border-radius:16px;box-shadow:0 8px 22px #0002;padding:clamp(14px,3vw,20px)}
+.stat{background:#101f1a;border-color:#395346}.stat strong{font-size:26px}
+button{min-height:44px;border-radius:10px;transition:background-color .15s,border-color .15s;touch-action:manipulation}
+button:focus-visible,select:focus-visible{outline:2px solid #e4c88d;outline-offset:2px}
+button.gold,.journal-tabs button.selected,.sheet-tabs .selected,.guide-tabs .selected{background:#81683e;color:#fff8e8;border-color:#b59a66}
+button.secondary{background:#182d25}
+.tabs{gap:1px;background:#101f1bf5;padding:7px 4px calc(8px + env(safe-area-inset-bottom));border-top:1px solid #42594b;box-shadow:0 -8px 25px #0003}
+.tabs button{min-width:0;max-width:95px;padding:6px 1px;font-size:10px;line-height:1.3;min-height:57px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.tabs button.active{background:#2b4536;color:#f1d9a5}
+.tabs b{display:flex;align-items:center;justify-content:center;height:23px;margin:0;font-size:initial}
+.ui-icon{width:22px;height:22px;display:block;flex-shrink:0}
+.settings-gear{display:grid;place-items:center;top:19px;right:0;width:44px;height:44px;padding:0;background:#1d352b}
+.settings-gear .ui-icon{width:21px;height:21px}
+.portrait-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:18px}
+.portrait-button{position:relative;border:2px solid #ad915b;padding:3px;border-radius:50%;background:#12251e;width:108px;height:108px;overflow:hidden;box-shadow:0 0 0 5px #21372d,0 10px 24px #0005}
+.portrait-button img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.portrait-button img[hidden]{display:none}
+.portrait-placeholder{display:grid;place-items:center;width:100%;height:100%;font:38px Georgia,serif;color:#dfc48d;background:radial-gradient(circle at 35% 20%,#456450,#14291f);border-radius:50%}
+.portrait-placeholder[hidden]{display:none}
+.portrait-edit{position:absolute;bottom:1px;right:8px;background:#314b3a;border:1px solid #c4ab77;border-radius:50%;font-size:13px;width:23px;height:23px;display:grid;place-items:center}
+.portrait-remove{min-height:30px;font-size:11px;padding:3px 9px;margin-top:5px}
+.learn-hint{background:#223a2e;border-color:#d5b677}
+@media(max-width:390px){.tabs button{font-size:9px}.tabs .ui-icon{width:20px;height:20px}.grid{gap:6px}.stat{padding:11px 3px}.stat strong{font-size:22px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+
+/* V2.8: three cohesive themes, with identical layout and icons */
+:root,[data-theme="forest"]{--t-bg:#0c1916;--t-glow:#244439;--t-panel:#172923;--t-panel2:#1a3028;--t-panel3:#12221d;--t-line:#345145;--t-accent:#e8c98c;--t-text:#f1ecdb;--t-muted:#aab9aa;--t-field:#0e211b;--t-button:#254b3c;--t-button2:#152a23;--t-active:#2b4536;--t-strong:#81683e;--t-hint:#223a2e;--t-borderbutton:#587663;--t-nav:#101f1b;--t-stat:#101f1a;--t-focus:#e4c88d;--t-portrait:#456450;--t-accentink:#fff8e8;--t-success:#68a78a}
+[data-theme="amethyst"]{--t-bg:#211b2c;--t-glow:#493852;--t-panel:#32283f;--t-panel2:#3a2e49;--t-panel3:#2b2337;--t-line:#6a5578;--t-accent:#e4b8df;--t-text:#faf0fa;--t-muted:#d0bed5;--t-field:#271f33;--t-button:#594268;--t-button2:#3c304c;--t-active:#594368;--t-strong:#78527d;--t-hint:#483452;--t-borderbutton:#80618f;--t-nav:#261f31;--t-stat:#2b2238;--t-focus:#f2c9ed;--t-portrait:#765a84;--t-accentink:#fff6fd;--t-success:#c4a1cd}
+[data-theme="obsidian"]{--t-bg:#101115;--t-glow:#2d3039;--t-panel:#202228;--t-panel2:#282b33;--t-panel3:#1b1d23;--t-line:#4b4e59;--t-accent:#e88b93;--t-text:#f2f2f4;--t-muted:#b8bac5;--t-field:#181a20;--t-button:#3b3e48;--t-button2:#282a32;--t-active:#49363f;--t-strong:#813e4b;--t-hint:#332b35;--t-borderbutton:#626572;--t-nav:#17181d;--t-stat:#191b21;--t-focus:#f0aab1;--t-portrait:#50515b;--t-accentink:#fff6f6;--t-success:#a9b3b6}
+:root{--bg:var(--t-bg);--panel:var(--t-panel);--line:var(--t-line);--gold:var(--t-accent);--text:var(--t-text);--muted:var(--t-muted);--green:var(--t-success)}
+body{background:radial-gradient(ellipse at top,var(--t-glow),var(--t-bg) 68%);color:var(--t-text)}
+.panel{background:linear-gradient(140deg,var(--t-panel2),var(--t-panel3));border-color:var(--t-line)}
+.stat{background:var(--t-stat);border-color:var(--t-line)}
+button{background:var(--t-button);border-color:var(--t-borderbutton);color:var(--t-text)}
+button.secondary{background:var(--t-button2)}
+button.gold,.journal-tabs button.selected,.sheet-tabs .selected,.guide-tabs .selected{background:var(--t-strong);border-color:var(--t-accent);color:var(--t-accentink)}
+input,textarea,select{background:var(--t-field);border-color:var(--t-line);color:var(--t-text)}
+.tabs{background:var(--t-nav);border-color:var(--t-line)}.tabs button.active{background:var(--t-active);color:var(--t-accent)}
+.settings-gear{background:var(--t-panel2)}
+.portrait-button{border-color:var(--t-accent);background:var(--t-panel3);box-shadow:0 0 0 5px var(--t-panel),0 10px 24px #0005}
+.portrait-placeholder{color:var(--t-accent);background:radial-gradient(circle at 35% 20%,var(--t-portrait),var(--t-panel3))}
+.portrait-edit{background:var(--t-panel2);border-color:var(--t-accent)}
+.learn-hint{background:var(--t-hint);border-color:var(--t-accent)}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--t-focus);outline-offset:2px}
+.theme-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0}
+.theme-choice{min-width:0;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:flex-start;background:var(--t-panel3);padding:10px 6px;border:2px solid var(--t-line);font-size:12px;line-height:1.25;text-align:center}
+.theme-choice[aria-pressed="true"]{border-color:var(--t-accent);box-shadow:0 0 0 1px var(--t-accent)}
+.theme-swatch{display:block;width:100%;height:58px;border-radius:8px;position:relative;border:1px solid #ffffff35;overflow:hidden}
+.theme-swatch:before{content:"";position:absolute;left:12%;right:12%;top:12px;height:13px;border-radius:3px;background:var(--sw-panel)}
+.theme-swatch:after{content:"";position:absolute;left:12%;width:45%;bottom:12px;height:6px;border-radius:3px;background:var(--sw-accent)}
+.theme-check{font-size:11px;color:var(--t-accent);font-weight:600;min-height:14px}
+.studio-brand{text-align:center;margin:26px 0 4px;color:var(--t-muted);display:flex;align-items:center;flex-direction:column;gap:5px}
+.studio-brand svg{width:32px;height:32px;stroke:var(--t-accent);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.studio-brand strong{font:20px Georgia,serif;letter-spacing:2px;color:var(--t-accent)}
+.studio-brand .studio-label{font-size:10px;letter-spacing:4px}.studio-brand em{font:italic 12px Georgia,serif;margin:5px 0}
+#offline-status{font-size:12px;line-height:1.5;color:var(--t-muted)}
+
+/* V2.8.1: theme all interactive surfaces, not only top-level panels. */
+.learn-switch{background:var(--t-panel2);border-color:var(--t-line)}
+.learn-switch small{color:var(--t-muted)}
+.learn-switch input,.turn-option input,.combat-check input,.condition-list input{accent-color:var(--t-accent)}
+.turn-option{background:var(--t-panel3);border-color:var(--t-line)}
+.learn-hint strong{color:var(--t-accent)}
+.combat-result{background:var(--t-panel3);border-color:var(--t-line)}
+.update-banner{background:var(--t-panel2);border-color:var(--t-accent)}
+.pill{border-color:var(--t-line)}
+.row{border-bottom-color:var(--t-line)}
+.guide-badge{color:var(--t-accent)}
+.status{color:var(--t-accent)}
+.sheet-feature,.combat-log-item,.guide-card{border-bottom-color:var(--t-line)}
+.bar{background:var(--t-panel3)}
+button:disabled{opacity:.55}
+/* Sketchbook paper stays parchment by design, irrespective of theme. */
+
+/* V2.9: character library and identity editing */
+.library-screen{min-height:100vh;background:radial-gradient(ellipse at top,var(--t-glow),var(--t-bg) 68%);padding:calc(30px + env(safe-area-inset-top)) 16px calc(50px + env(safe-area-inset-bottom))}
+.library-inner{max-width:610px;margin:auto}.library-studio{text-align:center;font-size:10px;letter-spacing:3px;color:var(--t-accent);margin-bottom:32px}.library-head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:34px}.library-head h1{font:normal clamp(29px,8vw,43px) Georgia,serif;color:var(--t-text);margin:5px 0}.library-head p{font:italic 14px Georgia,serif;color:var(--t-muted);margin:0}.eyebrow{font-size:10px;letter-spacing:2px;color:var(--t-accent)}.tome-symbol{font:56px Georgia,serif;color:var(--t-accent);opacity:.8}.library-inner h2{font:normal 22px Georgia,serif;margin-bottom:15px}.adventurer-card,.create-card{width:100%;display:flex;align-items:center;gap:13px;text-align:left;padding:14px;background:var(--t-panel2);border:1px solid var(--t-line);border-radius:16px;margin:0 0 12px;min-height:90px}.adventurer-card .avatar{width:65px;height:65px;flex-shrink:0;border-radius:12px;background:var(--t-panel3);color:var(--t-accent);display:grid;place-items:center;font-size:32px;overflow:hidden}.avatar img{width:100%;height:100%;object-fit:cover}.adventurer-info{display:flex;flex-direction:column;gap:5px;flex:1;min-width:0}.adventurer-info strong{font:20px Georgia,serif}.adventurer-info small{font-size:12px;color:var(--t-muted);overflow-wrap:anywhere}.create-card{border:1.5px dashed var(--t-accent);background:var(--t-panel3);flex-direction:column;justify-content:center;gap:6px;text-align:center}.create-card span{font-size:28px;color:var(--t-accent)}.create-card strong{font:18px Georgia,serif}.create-card small{font-size:12px;color:var(--t-muted)}.empty-party{text-align:center;padding:28px 12px 20px;color:var(--t-muted)}.empty-party h3{color:var(--t-text);font:20px Georgia,serif}.empty-symbol{font-size:46px;color:var(--t-accent)}.library-tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}.import-label{padding:12px;border:1px solid var(--t-line);border-radius:10px;background:var(--t-button2);font-size:13px;cursor:pointer}.library-footer{text-align:center;margin-top:50px;color:var(--t-muted);font-size:10px;letter-spacing:2px;line-height:2}.library-footer em{letter-spacing:0;font:italic 12px Georgia,serif}.library-switch{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:15px}.library-switch>div{display:flex;flex-direction:column;text-align:right;gap:3px;min-width:0}.library-switch strong{font:17px Georgia,serif;color:var(--t-accent)}.library-switch small{font-size:11px;color:var(--t-muted)}#new-character-form label,#character label{display:block;margin:12px 0;font-size:13px;color:var(--t-muted)}#new-character-form input,#new-character-form select,#character-name-input,#character-species-input,#character-class-input,#character-subclass-input,#character-background-input,#character-edition-input{display:block;width:100%;margin-top:5px}
+/* iPhone PWA / Safari safe-area and scroll-restoration patch */
+html{scroll-padding-top:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+body{min-height:100%;overflow-x:hidden}
+.wrap{padding-top:calc(max(env(safe-area-inset-top, 0px), 24px) + 44px);padding-bottom:calc(110px + env(safe-area-inset-bottom, 0px))}
+.library-screen{min-height:100dvh;padding-top:calc(max(env(safe-area-inset-top, 0px), 24px) + 44px)}
+.library-switch{position:relative;z-index:1}
+
+/* V2.9.2: prevent Safari's automatic input-focus zoom without disabling manual zoom. */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+textarea,select{font-size:16px!important}
+html{-webkit-text-size-adjust:100%}
+
+/* V2.9.3 edit mode and character management */
+.library-card-row{display:flex;align-items:stretch;gap:8px;margin-bottom:12px}
+.library-card-row .adventurer-card{margin:0;flex:1;min-width:0}
+.delete-adventurer{font-size:12px;background:var(--t-panel3);border:1px solid var(--t-line);color:var(--t-muted);padding:8px;border-radius:12px}
+.editor-toolbar{position:relative}
+.editor-toolbar .row{align-items:center;gap:12px;flex-wrap:wrap}
+.editor-toolbar .actions{display:flex;flex-wrap:wrap;gap:6px}
+#sheet-edit-region input:disabled,#sheet-edit-region select:disabled,#sheet-edit-region textarea:disabled,#story textarea:disabled{opacity:.82;color:var(--t-text);-webkit-text-fill-color:var(--t-text);background:var(--t-panel3)}
+#storybackstory{min-height:130px}
+
+/* V2.9.4: unobtrusive editing footer and dismissible setup prompt */
+.edit-hint{font-size:12px;line-height:1.5;color:var(--t-muted);margin:3px 0 13px}
+.edit-hint strong{font-weight:650;color:var(--t-text)}
+.editor-toolbar{margin-top:18px;padding:12px 14px}
+.editor-toolbar .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.editor-toolbar strong{font-size:12px;font-weight:600}
+.editor-toolbar .sub{font-size:11px;margin:3px 0 0}
+.editor-toolbar button{padding:9px 14px;min-height:39px}
+.reminder-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.reminder-heading h3{margin:0}
+.dismiss-reminder{font-size:24px;line-height:1;padding:2px 10px;min-width:37px;min-height:37px;flex-shrink:0}
+
+/* V2.9.5 compact heading editing, accessibility and save feedback */
+.edit-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.edit-heading h2{margin:0;flex:1 1 145px}
+.edit-heading .editor-toolbar{margin:0;padding:0;border:0;background:none;box-shadow:none;flex:0 0 auto}
+.edit-heading .editor-toolbar .row{gap:0}
+.edit-heading .editor-toolbar strong,.edit-heading .editor-toolbar .sub{display:none}
+.edit-heading .editor-toolbar .actions{gap:5px}
+.edit-heading .editor-toolbar button{min-height:44px;min-width:44px;padding:9px 11px;font-size:13px}
+.save-feedback{font-size:12px;color:var(--t-accent);min-height:0;margin:-5px 0 10px}
+.save-feedback:empty{display:none}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--t-accent);outline-offset:3px}
+.delete-adventurer,.dismiss-reminder{min-height:44px;min-width:44px}
+@media(max-width:375px){.edit-heading h2{font-size:21px}.edit-heading .editor-toolbar button{padding:8px 9px;font-size:12px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* V3.0A isolated creator foundation */
+.creator-shell{margin:18px 0;padding:18px;border:1px solid var(--line,rgba(160,130,200,.35));border-radius:18px;background:var(--panel,#18241f)}
+.creator-shell label{display:block;margin:12px 0 5px}.creator-shell input,.creator-shell select,.creator-shell textarea{max-width:100%;width:100%;box-sizing:border-box}
+.creator-steps{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}.creator-steps button{flex:1;min-width:92px;font-size:.85rem}
+.creator-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.creator-actions button{flex:1;min-width:120px}
+.creator-note{font-size:.87rem;opacity:.8}.creator-status{margin-top:12px;min-height:1.5em}
+.creator-draft-card{border:1px solid rgba(155,120,190,.5);border-radius:12px;padding:12px;margin:8px 0}
+.creator-draft-card button{margin:5px 5px 0 0}
+@media(max-width:440px){.creator-shell{padding:13px}.creator-steps button{min-width:78px}}
+</style></head><body><section id="character-library" class="library-screen hidden"><div class="library-inner"><div class="library-studio">♧ SYLVAEREN STUDIOS</div><div class="library-head"><div><div class="eyebrow">THE ADVENTURER'S LIBRARY</div><h1>Wayfarer's Tome</h1><p>Every adventure begins somewhere.</p></div><span class="tome-symbol" aria-hidden="true">✧</span></div><h2>Your Adventurers</h2><div id="character-cards"></div><button class="create-card" onclick="$('new-character-form').classList.toggle('hidden')"><span aria-hidden="true">⊕</span><strong>Create New Adventurer</strong><small>Begin another story</small></button><div class="creator-shell hidden" id="v3a-creator" aria-label="Unified character creator">
+<div class="eyebrow">THE NEXT CHAPTER · V3.0A PREVIEW</div><h2>Create Your Adventurer</h2>
+<p class="creator-note">An autosaved draft. Guided and Manual modes edit the same information. Rules automation is coming in later phases.</p>
+<div class="actions"><button type="button" id="v3a-guided" onclick="v3aMode('guided')">Guided Mode</button><button type="button" id="v3a-manual" class="secondary" onclick="v3aMode('manual')">Manual Mode</button></div>
+<div id="v3a-steps" class="creator-steps"></div><div id="v3a-fields"></div>
+<div class="creator-actions"><button class="secondary" onclick="v3aBack()">Back</button><button class="secondary" onclick="v3aNext()">Continue</button></div>
+<div class="creator-actions"><button class="secondary" onclick="v3aClose()">Return to Library</button><button onclick="v3aPublish()">Add to Library as Draft</button></div>
+<p class="creator-status creator-note" id="v3a-status" role="status"></p></div>
+<div id="v3a-draft-list" aria-label="Saved creator drafts"></div>
+<button class="create-card" onclick="v3aOpen()"><span aria-hidden="true">✧</span><strong>Try the V3.0 Creator</strong><small>Guided or Manual · Autosaved Draft</small></button>
+<div id="new-character-form" class="panel hidden"><h3>Create an Adventurer</h3><p class="sub">Have a paper sheet? Enter the details you know and finish later. Custom ancestries and classes welcome.</p><label>Name <input id="new-character-name" maxlength="80" placeholder="Your character's name"></label><label>Species / Ancestry <input id="new-character-species" placeholder="Wood Elf, Dragonborn, custom hybrid…"></label><label>Class <input id="new-character-class" placeholder="Rogue, Wizard, your own class…"></label><label>Subclass <input id="new-character-subclass" placeholder="Arcane Trickster, Assassin…"></label><label>Background <input id="new-character-background" placeholder="Outlander, Sage, custom…"></label><label>Rules edition <select id="new-character-edition"><option value="2014">2014</option><option value="2024">2024</option><option value="Custom">Custom / Homebrew</option></select></label><p class="sub">Manual entry works for any character. Automated combat guidance currently focuses on the 2014 Assassin Rogue.</p><button class="gold" onclick="createAdventurer()">Create Character</button><p id="create-character-status" role="status" class="sub"></p></div><div class="library-tools"><button class="secondary" onclick="exportLibrary()">Export All Characters</button><label class="import-label">Import Library Backup<input type="file" accept=".json,application/json" onchange="importLibrary(event)" hidden></label></div><div class="library-footer">SYLVAEREN STUDIOS<br><em>Every adventure begins somewhere.</em></div></div></section><main class="wrap"><div class="library-switch"><button class="secondary" onclick="showCharacterLibrary()">‹ Adventurers</button><div><strong id="active-character-name">Adventurer</strong><small id="active-character-summary"></small></div></div><div id="updatebanner" class="update-banner hidden" role="status" aria-live="polite"><strong id="updatetitle">New version available</strong><p id="updatemessage"></p><div class="actions"><button class="gold" onclick="applyUpdate()">Update now</button><button class="secondary" onclick="dismissUpdate()">Later</button></div></div><header><button class="settings-gear" aria-label="Open Settings" title="Settings" onclick="showTab('settings')"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19 13.5a7.8 7.8 0 0 0 0-3l2-1.5-2-3.5-2.4 1a8 8 0 0 0-2.6-1.5L13.5 2h-4L9 5a8 8 0 0 0-2.6 1.5l-2.4-1L2 9l2 1.5a7.8 7.8 0 0 0 0 3L2 15l2 3.5 2.4-1A8 8 0 0 0 9 19l.5 3h4l.5-3a8 8 0 0 0 2.6-1.5l2.4 1L21 15z"/></svg></button><div class="eyebrow">THE ADVENTURER'S COMPANION</div><h1>Kiran Silverbough</h1><div class="sub">Wood Elf · Rogue (Assassin) · <span id="header-level">Level 3</span></div><div class="portrait-wrap"><button id="portraitbutton" class="portrait-button" onclick="document.getElementById('portraitfile').click()" aria-label="Choose Kiran portrait" title="Choose character portrait"><span id="portraitplaceholder" class="portrait-placeholder">KS</span><img id="portraitimage" alt="Kiran's character portrait" hidden><span class="portrait-edit" aria-hidden="true">✎</span></button><input id="portraitfile" type="file" accept="image/*" hidden onchange="setPortrait(event)"><button class="portrait-remove secondary hidden" id="removeportrait" onclick="removePortrait()">Remove portrait</button></div></header>
+<section id="home"><div id="manual-sheet-shortcut" class="panel hidden"><div class="row reminder-heading"><h3>Finish your character sheet</h3><button class="secondary dismiss-reminder" onclick="dismissCharacterReminder()" aria-label="Dismiss character setup reminder" title="Dismiss this reminder">×</button></div><p class="sub">Your adventurer is saved. Open the Character Sheet to set ability scores, skills, saving throws, HP, AC, and proficiencies. You can return and edit these anytime.</p><button onclick="showTab('character')">Edit Character Sheet</button></div><div class="panel"><h2>Character Overview</h2><div class="grid"><div class="stat"><strong id="ac">14</strong><span>ARMOR CLASS</span></div><div class="stat"><strong>+3</strong><span>INITIATIVE</span></div><div class="stat"><strong>35</strong><span>SPEED · FT</span></div></div><div style="margin-top:17px" class="row"><div><div class="sub">HIT POINTS</div><div class="big"><span id="hp">21</span><span class="sub"> / <span id="maxhp">21</span></span></div></div><div class="tag" id="hpstatus">READY</div></div><div class="bar"><div id="hpbar"></div></div><div class="actions"><button onclick="changeHP(-1)">− 1 Damage</button><button onclick="changeHP(1)">+ 1 Heal</button><button class="gold" onclick="longRest()">Long Rest</button></div><details><summary>Adjust HP by a custom amount</summary><div class="split"><input type="number" id="hpamount" value="5" min="1"><button onclick="changeHP(-Math.abs(Number(document.getElementById('hpamount').value)||0))">Apply Damage</button></div><button class="secondary" style="margin-top:8px;width:100%" onclick="changeHP(Math.abs(Number(document.getElementById('hpamount').value)||0))">Apply Healing</button></details></div><div class="panel"><h3>Ability Scores</h3><div class="grid" id="abilities"></div><div class="sub" style="margin-top:12px">Proficiency bonus +2 · Hit Dice 3d8 · Passive Perception 16</div></div><div class="panel"><h3>Quick Reference</h3><div class="row"><span>Sneak Attack</span><b id="home-sneak">2d6</b></div><div class="row"><span>Shortbow</span><b id="home-bow">+5 to hit · 1d6+3</b></div><div class="row"><span>Rapier</span><b id="home-rapier">+5 to hit · 1d8+3</b></div><div class="row"><span>Expertise</span><b>Stealth, Perception</b></div><div class="row"><span>Assassin features</span><b>Assassinate</b></div><p class="sub tiny">2014 D&D rules. Confirm your DM's interpretation of surprise and the Assassin features.</p></div></section>
+<section id="combat" class="hidden"><h2>Combat & Dice</h2><div class="panel"><h3>Dice Roller</h3><div class="split"><div><label>Die</label><select id="die"><option value="20">d20</option><option value="4">d4</option><option value="6">d6</option><option value="8">d8</option><option value="10">d10</option><option value="12">d12</option><option value="100">d100</option></select></div><div><label>Modifier</label><input id="modifier" type="number" value="0"></div></div><div class="roll" id="rollresult">🎲</div><button style="width:100%" class="gold" onclick="rollDice()">Roll Dice</button><p class="sub tiny" id="rolldetail">Tap to roll.</p><div class="actions"><button onclick="quickRoll(20,profBonus()+abilityMod('DEX'),'Shortbow attack')">Bow +5</button><button onclick="quickRoll(20,profBonus()+abilityMod('DEX'),'Rapier attack')">Rapier +5</button><button onclick="quickRoll(20,skillBonus('Stealth','DEX'),'Stealth check')">Stealth +7</button></div></div><div class="panel"><h3>Combat Resources</h3><div class="row"><span>Hit Dice Remaining</span><div><button class="secondary" onclick="changeResource('hitdice',-1)">−</button> <b id="hitdice">3</b> <button class="secondary" onclick="changeResource('hitdice',1)">+</button></div></div><div class="row"><span>Arrows Remaining</span><div><button class="secondary" onclick="changeResource('arrows',-1)">−</button> <b id="arrows">20</b> <button class="secondary" onclick="changeResource('arrows',1)">+</button></div></div><div class="row"><span>Death Save Successes</span><div><button class="secondary" onclick="changeResource('success',-1)">−</button> <b id="success">0</b> <button class="secondary" onclick="changeResource('success',1)">+</button></div></div><div class="row"><span>Death Save Failures</span><div><button class="secondary" onclick="changeResource('fail',-1)">−</button> <b id="fail">0</b> <button class="secondary" onclick="changeResource('fail',1)">+</button></div></div><button class="secondary" style="width:100%;margin-top:10px" onclick="resetDeath()">Reset Death Saves</button></div><div class="panel"><h3>Conditions & Notes</h3><textarea id="combatnotes" placeholder="Conditions, concentration, temporary effects..."></textarea><button style="margin-top:8px" onclick="saveNotes()">Save Combat Notes</button></div><div class="panel"><h3>Attack Planner</h3><div class="learn-hint"><strong>How to attack:</strong> Choose your weapon, decide with your DM whether advantage or Sneak Attack applies, then roll. The app calculates dice but cannot decide whether a creature is surprised.</div><p class="combat-help">Choose the weapon and roll mode. Sneak Attack and surprise must be confirmed at the table; this tool does not determine eligibility.</p><div class="combat-grid"><label>Weapon<select id="attack-weapon"><option value="shortbow">Shortbow · 1d6</option><option value="rapier">Rapier · 1d8</option><option value="dagger">Dagger · 1d4</option></select></label><label>Roll mode<select id="attack-mode"><option value="normal">Normal</option><option value="advantage">Advantage</option><option value="disadvantage">Disadvantage</option></select></label><label>Target AC (optional)<input id="attack-ac" type="number" min="0" max="50" placeholder="Unknown"></label><label>Other attack modifier<input id="attack-extra" type="number" value="0"></label></div><label class="combat-check"><input type="checkbox" id="attack-sneak">Include Sneak Attack (once per turn, if eligible)</label><label class="combat-check"><input type="checkbox" id="attack-surprise">Target is surprised and Assassinate critical applies (2014 rules; confirm with DM)</label><label class="combat-check"><input type="checkbox" id="attack-extra-damage">Add bonus damage modifier</label><div class="combat-grid"><label>Other damage modifier<input id="attack-damage-extra" type="number" value="0"></label><label>Damage dice bonus (d6)<input id="attack-bonus-dice" type="number" min="0" max="30" value="0"></label></div><div class="actions"><button class="gold" onclick="rollAttack()">🎯 Roll Attack & Damage</button><button class="secondary" onclick="resetAttackTurn()">New Turn</button></div><div id="attack-result" class="combat-result" aria-live="polite">Choose your attack options and roll.</div><p class="combat-help">On a natural 20 or a qualifying Assassinate hit against a surprised creature, damage dice are doubled. Damage modifiers are not doubled. A natural 1 misses regardless of modifiers. Surprise does not automatically grant advantage; 2014 Assassinate grants advantage against creatures that have not taken a turn yet.</p></div><div class="panel"><h3>Death Save Roller</h3><div class="learn-hint"><strong>At 0 HP?</strong> Death saves are normally made at the start of your turn. Three successes stabilize you; three failures mean death. Damage at 0 HP can also cause failures.</div><p class="combat-help">Roll a death saving throw at 0 HP. Natural 20 restores 1 HP; natural 1 counts as two failures.</p><button class="secondary" onclick="rollDeathSave()">Roll Death Save</button><p id="death-roll-result" class="combat-help" aria-live="polite"></p></div><div class="panel"><h3>Active Conditions</h3><div id="condition-list" class="condition-list"></div><div class="actions"><button class="secondary" onclick="clearConditions()">Clear Conditions</button></div><p class="combat-help">Condition tracking is a reminder, not an automated rules engine. The Exhaustion option is a flag only.</p></div><div class="panel"><div class="row"><h3>Combat History</h3><button class="secondary" onclick="clearCombatLog()">Clear Log</button></div><p class="sub">Recent rolls and HP changes are stored with your character. Add meaningful moments to your session journal.</p><div id="combat-history"></div></div></section>
+<section id="guide" class="hidden"><h2 id="guide-heading">Learn to Play</h2><p class="sub">2014 D&D 5e rules · Your DM makes the final call.</p><div class="panel"><h3>My Turn</h3><div class="learn-hint"><strong>New to combat?</strong> You can move and take an action on your turn. You may also have a bonus action, and you can interact with one object for free. Your reaction can happen on another creature's turn if triggered. Checking a box is only a reminder, not a rules restriction.</div><div id="turn-checklist"></div><div class="actions"><button class="gold" onclick="resetGuideTurn()">↻ Start New Turn</button><button class="secondary" onclick="showTab('combat')">Open Combat Tools</button></div><p class="sub tiny">Movement can be split before and after your action. Reactions normally refresh at the start of your next turn. Sneak Attack can be used once per turn, not once per round.</p></div><div class="panel"><h3>What Can I Do?</h3><div class="guide-tabs"><button id="g-basic" class="selected" onclick="guideCategory('basic')">Basics</button><button id="g-rogue" onclick="guideCategory('rogue')">Rogue</button><button id="g-assassin" onclick="guideCategory('assassin')">Assassin</button></div><div id="guide-cards"></div></div><div class="panel"><h3>Quick Dice Reference</h3><div class="guide-card"><h3>Ability checks</h3><p>Roll d20 + relevant ability modifier + proficiency bonus if proficient. Expertise doubles the proficiency bonus.</p></div><div class="guide-card"><h3>Advantage / disadvantage</h3><p>Roll two d20s and use the higher result for advantage, or the lower for disadvantage. They cancel if both apply.</p></div><div class="guide-card"><h3>Attack vs. damage</h3><p>First roll to hit against Armor Class. If the attack hits, roll the weapon's damage dice and add appropriate modifiers. A natural 20 is a critical hit.</p></div><div class="learn-hint"><strong>Rules reminder:</strong> Hiding requires a suitable situation and a Dexterity (Stealth) check as determined by your DM. Being hidden is not automatic advantage in every circumstance.</div></div></section><section id="inventory" class="hidden"><h2>Inventory</h2><div class="panel"><div class="row"><h3>Equipment</h3><span class="tag">Gold: <span id="gold">10</span> GP</span></div><div id="items"></div><label>Add equipment</label><div class="split"><input id="newitem" placeholder="Item name"><button onclick="addItem()">Add Item</button></div><label>Gold pieces</label><input type="number" id="goldinput" min="0" onchange="updateGold()"></div></section>
+<section id="journal" class="hidden"><h2>Field Journal & Sketchbook</h2><p class="sub">Notes from the road, curious strangers, unfinished business, and your drawings.</p><div class="journal-tabs"><button id="jt-sessions" class="selected" onclick="journalTab('sessions')">Sessions</button><button id="jt-people" onclick="journalTab('people')">People</button><button id="jt-quests" onclick="journalTab('quests')">Quests</button><button id="jt-sketches" onclick="journalTab('sketches')">Sketchbook</button></div><div id="journal-writing"><div class="panel"><h3 id="journal-form-title">New Journal Entry</h3><label id="journal-title-label" for="entrytitle">Title</label><input id="entrytitle" placeholder="Session 1 · Bellwether" maxlength="120"><label for="entrybody">Kiran's notes</label><textarea id="entrybody" placeholder="What happened? Who was suspicious? Any clues worth remembering?" rows="6"></textarea><div class="actions"><button class="gold" onclick="addEntry()" id="entrysave">Save Entry</button><button class="secondary hidden" id="entrycancel" onclick="cancelEntryEdit()">Cancel Edit</button></div></div><div id="entries"></div></div><div id="journal-sketches" class="hidden"><div class="panel"><h3>Sketch or Import a Memory</h3><p class="sub">Draw with your finger or add artwork from Photos or Files. You can draw over imported pictures too.</p><label for="sketchtitle">Sketch title</label><input id="sketchtitle" maxlength="120" placeholder="The Bellwether festival gate"><label for="sketchnote">Caption</label><textarea id="sketchnote" rows="2" placeholder="A few words in Kiran's voice..."></textarea><div class="actions"><button class="secondary" onclick="document.getElementById('artfile').click()">📷 Upload Image</button><button class="secondary" onclick="removeImportedImage()">Start Blank</button></div><input type="file" id="artfile" accept="image/*" style="display:none" onchange="importArtwork(event)"><canvas id="sketchpad" class="sketchpad" width="800" height="600" aria-label="Drawing canvas"></canvas><div class="ink-tools"><label for="inkcolor">Ink</label><input id="inkcolor" type="color" value="#352f27"><label for="inksize">Width</label><input id="inksize" type="range" min="2" max="22" value="5"><button class="secondary" onclick="undoStroke()">Undo</button><button class="secondary" onclick="clearSketch()">Clear</button></div><div class="actions"><button class="gold" onclick="saveSketch()">Save Sketch</button><button class="secondary" onclick="cancelSketchEdit()" id="sketchcancel" style="display:none">Cancel Edit</button></div><p class="status" id="sketchstatus"></p></div><div id="sketchlist"></div></div><div class="panel"><h3>Protect Your Adventures</h3><p class="sub">Everything saves on this device. Export a JSON backup from the Story tab after each session. Drawings and imported images are included in that backup. Large image collections can fill device storage, so export backups regularly. Clearing browser data can erase local saves.</p></div></section>
+<section id="character" class="hidden"><div class="edit-heading"><h2>Complete Character Sheet</h2><div class="panel editor-toolbar"><div class="row"><div><strong id="sheet-edit-status">View mode · Protected from accidental edits</strong><p class="sub">Roll buttons remain available while viewing.</p></div><div class="actions"><button id="sheet-edit-btn" class="gold" onclick="startSheetEdit()">✎ Edit</button><button id="sheet-save-btn" class="gold hidden" onclick="commitSheetEdit()">Save</button><button id="sheet-cancel-btn" class="secondary hidden" onclick="cancelSheetEdit()">Cancel</button></div></div></div></div><div class="save-feedback" id="character-save-feedback" role="status" aria-live="polite"></div><div id="sheet-edit-region"><div class="panel"><h3 id="sheet-identity-label">Character Identity</h3><p class="sub">Edit these fields anytime. Custom entries are welcome.</p><label>Name<input id="character-name-input" maxlength="80"></label><label>Species / Ancestry<input id="character-species-input"></label><label>Class<input id="character-class-input"></label><label>Subclass<input id="character-subclass-input"></label><label>Background<input id="character-background-input"></label><label>Rules edition<select id="character-edition-input"><option>2014</option><option>2024</option><option>Custom</option></select></label><p class="sub">Use Edit beside the Stats heading to update character details.</p></div><div id="rogue-context-warning" class="panel hidden" role="note"></div><p class="sub">Edit your character sheet at any time. Check your selected rules edition and confirm details with your DM.</p><div class="panel"><div class="row"><h3>Identity & Progress</h3><span class="tag" id="sheet-level-label">Level 3</span></div><div class="sheet-editor"><label>Level<input id="sheet-level" type="number" min="1" max="20" onchange="updateSheetField('level',this.value)"></label><label>Experience points<input id="sheet-xp" type="number" min="0" onchange="updateSheetField('xp',this.value)"></label><label>Maximum HP<input id="sheet-maxhp" type="number" min="1" onchange="updateSheetField('maxhp',this.value)"></label><label>Armor Class<input id="sheet-ac" type="number" min="0" onchange="updateSheetField('ac',this.value)"></label><label>Speed (ft)<input id="sheet-speed" type="number" min="0" onchange="updateSheetField('speed',this.value)"></label><label>Inspiration<select id="sheet-inspiration" onchange="updateSheetField('inspiration',this.value)"><option value="false">No</option><option value="true">Yes</option></select></label></div><p class="sheet-small" id="sheet-progression"></p></div><div class="panel"><h3>Ability Scores</h3><div class="grid" id="sheet-abilities"></div><p class="sheet-small">Scores are editable. Modifiers update skills, saving throws, initiative and attacks.</p></div><div class="panel"><h3>Saving Throws</h3><div class="sheet-list" id="sheet-saves"></div></div><div class="panel"><h3>Skills</h3><p class="sheet-small">Choose None, Proficient or Expertise for each skill.</p><div class="sheet-list" id="sheet-skills"></div><div class="row"><span>Passive Perception</span><b id="sheet-passive">—</b></div></div><div class="panel"><h3>Weapons & Combat</h3><div class="sheet-list" id="sheet-weapons"></div><p class="sheet-small">Attack values assume proficiency with the listed weapons and no magic bonuses. Sneak Attack applies only when its requirements are met.</p></div><div class="panel"><h3>Rogue Features & Leveling</h3><div id="sheet-features"></div></div><div class="panel"><h3>Proficiencies, Languages & Details</h3><label>Tools and instruments<textarea id="sheet-tools" onchange="updateSheetText('tools',this.value)"></textarea></label><label>Languages<textarea id="sheet-languages" onchange="updateSheetText('languages',this.value)"></textarea></label><label>Other proficiencies and features<textarea id="sheet-other" onchange="updateSheetText('other',this.value)"></textarea></label><label>Character sheet notes<textarea id="sheet-notes" onchange="updateSheetText('notes',this.value)"></textarea></label></div></div></section>
+<section id="story" class="hidden"><div class="edit-heading"><h2>Story & Character</h2><div class="panel editor-toolbar"><div class="row"><strong id="story-edit-status">View mode · Protected from accidental edits</strong><div class="actions"><button id="story-edit-btn" class="gold" onclick="startStoryEdit()">✎ Edit</button><button id="story-save-btn" class="gold hidden" onclick="commitStoryEdit()">Save</button><button id="story-cancel-btn" class="secondary hidden" onclick="cancelStoryEdit()">Cancel</button></div></div></div></div><div class="save-feedback" id="story-save-feedback" role="status" aria-live="polite"></div><div class="panel"><h3 id="story-origin-title">Origins</h3><p id="story-origin-text">Kiran Silverbough is a 106-year-old Wood Elf from Sylvaeren. His parents, Caelan and Liora Silverbough, disappeared on an expedition when he was 62. His grandfather Thalion raised him afterward.</p><p class="kiran-only">At age 100, Kiran secretly left his community to escape the expectations of its elders. After six years on the road, his travels have brought him to Bellwether's centennial survival festival.</p><p class="kiran-only">He is stealthy, sarcastic, quick with a quip, and happiest when he can keep his distance and let his bow do the talking.</p></div><div class="panel kiran-only"><h3>Skills & Proficiencies</h3><div class="row"><span>Stealth (Expertise)</span><b>+7</b></div><div class="row"><span>Perception (Expertise)</span><b>+6</b></div><div class="row"><span>Acrobatics</span><b>+5</b></div><div class="row"><span>Deception</span><b>+3</b></div><div class="row"><span>Investigation</span><b>+2</b></div><div class="row"><span>Athletics</span><b>+1</b></div><div class="row"><span>Survival</span><b>+4</b></div><p class="sub">Tools: Thieves' tools, disguise kit, poisoner's kit, flute. Flute proficiency does not imply owning a flute.</p></div><div class="panel"><h3>Backstory</h3><textarea id="storybackstory" placeholder="Where did your character come from? What shaped their journey?"></textarea></div><div class="panel"><h3>Character Notes</h3><textarea id="storynotes"  placeholder="Personality, goals, secrets, contacts..."></textarea></div></section><section id="settings" class="hidden"><h2>Settings</h2><p class="sub">Your preferences, saved adventures and app information.</p>
+<div class="panel"><h3>Appearance</h3><p class="sub">Choose the atmosphere that suits your adventure. Colors change instantly; your character and layout stay the same.</p><div class="theme-options" role="group" aria-label="App color theme"><button type="button" class="theme-choice" data-theme-choice="forest" onclick="setTheme('forest')" aria-pressed="true"><span class="theme-swatch" style="background:#102c27;--sw-panel:#235345;--sw-accent:#c6a76a"></span><span>Sylvaeren<br>Forest</span><span class="theme-check" aria-hidden="true"></span></button><button type="button" class="theme-choice" data-theme-choice="amethyst" onclick="setTheme('amethyst')" aria-pressed="false"><span class="theme-swatch" style="background:#282239;--sw-panel:#544466;--sw-accent:#c9a5c7"></span><span>Moonlit<br>Amethyst</span><span class="theme-check" aria-hidden="true"></span></button><button type="button" class="theme-choice" data-theme-choice="obsidian" onclick="setTheme('obsidian')" aria-pressed="false"><span class="theme-swatch" style="background:#111216;--sw-panel:#292b31;--sw-accent:#d26b76"></span><span>Obsidian<br>Keep</span><span class="theme-check" aria-hidden="true"></span></button></div><p id="theme-status" class="sub" aria-live="polite">Sylvaeren Forest selected.</p></div>
+<div class="panel"><h3>Gameplay & Learning</h3><div class="learn-switch"><label for="learning-toggle"><input id="learning-toggle" type="checkbox" onchange="setLearningMode(this.checked)"><span>Beginner Mode<small id="learning-state">Helpful rules and explanations</small></span></label><span aria-hidden="true">📖</span></div><label class="combat-check"><input id="confirm-toggle" type="checkbox" onchange="setConfirmImportant(this.checked)"><span>Confirm important actions <small class="sub">Ask before deleting journal entries, sketches or inventory items.</small></span></label></div>
+<div class="panel"><h3>Character Library</h3><button class="secondary" onclick="showCharacterLibrary()">View All Adventurers</button><div class="actions"><button onclick="exportLibrary()">Export All Characters</button><button class="secondary" onclick="deleteAdventurer()">Delete Current Character</button></div></div><div class="panel"><h3>Character Data</h3><p class="sub">Saved on this device in this browser. Export backups regularly, especially before updates or changing phones. Large artwork may make backups sizable.</p><div class="actions"><button class="gold" onclick="exportData()">⬇ Export Backup</button><button class="secondary" onclick="document.getElementById('importfile').click()">⬆ Import Backup</button></div><input type="file" accept="application/json,.json" id="importfile" style="display:none" onchange="importData(event)"><p class="sub tiny">Import replaces your current character data after confirmation. It does not erase Beginner Mode settings.</p></div>
+<div class="panel"><h3>Offline Access</h3><p class="sub">After opening V2.8 online, this device can keep a copy of the app for offline sessions. Your character data remains saved locally. Always export a backup after a session.</p><p id="offline-status" role="status" aria-live="polite">Checking offline support…</p><button class="secondary" onclick="checkOfflineStatus()">Check Offline Status</button></div>
+<div class="panel"><h3>Application</h3><div class="row"><span>Installed version</span><strong id="appversion">2.9.5</strong></div><button class="secondary" onclick="checkForUpdates(true)">↻ Check for Updates</button><div id="updatecheckstatus" class="update-status" aria-live="polite">Checks when you open or return to the app.</div></div>
+<div class="panel"><h3>About</h3><p>Wayfarer’s Tome is an unofficial character companion. Custom characters are supported through manual entry; automated combat guidance currently focuses on the 2014 Assassin Rogue.</p><p class="sub">The DM decides rules questions. This is not a replacement for your official character sheet or a cloud backup.</p></div></section><div class="studio-brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 6 17h5l-7 9h24l-7-9h5L16 3Z"/><path d="M16 17v12M11 21l5 4 5-4"/></svg><strong>SYLVAEREN</strong><span class="studio-label">STUDIOS</span><em>Every adventure begins somewhere.</em><span class="sub tiny">Wayfarer’s Tome · V3.0A Preview · Unofficial D&amp;D companion</span></div></main><nav class="tabs"><button class="active" data-tab="home" onclick="showTab('home')"><b><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></b>Sheet</button><button data-tab="combat" onclick="showTab('combat')"><b><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 19 14-14M14 5l5 5M5 14l5 5M3 21l4-4"/></svg></b>Combat</button><button data-tab="guide" onclick="showTab('guide')"><b><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7c-2-2-5-2-9-1v14c4-1 7-1 9 1 2-2 5-2 9-1V6c-4-1-7-1-9 1ZM12 7v14"/></svg></b>Guide</button><button data-tab="inventory" onclick="showTab('inventory')"><b><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="7" width="16" height="14" rx="2"/><path d="M9 7V5a3 3 0 0 1 6 0v2M4 12h16M10 12v3h4v-3"/></svg></b>Gear</button><button data-tab="journal" onclick="showTab('journal')"><b><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3h13a2 2 0 0 1 2 2v16H7a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3M4 18a3 3 0 0 1 3-3h13M9 8h6M9 11h4"/></svg></b>Journal</button><button data-tab="character" onclick="showTab('character')"><b><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg></b>Stats</button><button data-tab="story" onclick="showTab('story')"><b><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18H6a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3M3 18a3 3 0 0 1 3-3h12M9 8h6M9 11h5"/></svg></b>Story</button></nav><script>
+const KEY='kiran-companion-v1';const LIBRARY_KEY='wayfarers-tome-characters-v1';const defaults={hp:21,maxhp:21,hitdice:3,arrows:20,success:0,fail:0,gold:10,items:['Leather armor','Rapier','Shortbow','2 daggers','Burglar’s pack','Thieves’ tools','Staff','Hunting trap','Animal trophy','Traveler’s clothes'],entries:[],sketches:[],combatnotes:'',storynotes:'',conditions:[],attackTurnUsed:false,sheet:null,combatLog:[]};let state;try{state={...defaults,...JSON.parse(localStorage.getItem(KEY)||'{}')}}catch{state={...defaults}};const $=id=>document.getElementById(id);function save(){try{if(activeCharacterId&&characterLibrary){const c=characterLibrary.characters.find(c=>c.id===activeCharacterId);if(c){c.data=JSON.parse(JSON.stringify(state));localStorage.setItem(LIBRARY_KEY,JSON.stringify(characterLibrary))}}return true}catch(e){alert('Device storage is full or unavailable. Export a backup before adding more drawings.');return false}}function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function showTab(tab){if(!activeCharacterId){showCharacterLibrary();return} const current=document.querySelector('main section:not(.hidden)');if(current&&current.id!==tab&&!confirmLeaveEditing())return;document.querySelectorAll('main section').forEach(s=>s.classList.toggle('hidden',s.id!==tab));document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));scrollTo(0,0)}function render(){renderPortrait(); $('hp').textContent=state.hp;$('maxhp').textContent=state.maxhp;$('hpbar').style.width=(100*state.hp/state.maxhp)+'%';$('hpstatus').textContent=state.hp===0?'UNCONSCIOUS':state.hp<=state.maxhp/4?'CRITICAL':'READY';['hitdice','arrows','success','fail','gold'].forEach(k=>$(k).textContent=state[k]);$('goldinput').value=state.gold;$('combatnotes').value=state.combatnotes;if(!storyEditing)$('storynotes').value=state.storynotes;renderItems();renderEntries();renderSheet();renderConditions();if(currentJournalTab==='sketches')renderSketches()}function changeHP(n){const previousHP=state.hp;state.hp=Math.min(state.maxhp,Math.max(0,state.hp+n));save();render();if(previousHP!==state.hp)addCombatLog('Hit Points',`${previousHP} → ${state.hp} HP (${state.hp-previousHP>0?'+':''}${state.hp-previousHP})`)}function longRest(){if(!confirm('Restore all HP and up to half your total Hit Dice (minimum 1)?'))return;state.hp=state.maxhp;state.hitdice=Math.min(sheet().level,state.hitdice+Math.max(1,Math.floor(sheet().level/2)));state.success=state.fail=0;state.attackTurnUsed=false;save();render()}function changeResource(k,n){const max={hitdice:sheet().level,arrows:999,success:3,fail:3}[k];state[k]=Math.max(0,Math.min(max,state[k]+n));save();render()}function resetDeath(){state.success=state.fail=0;save();render()}function rollDie(s){return Math.floor(Math.random()*s)+1}function rollDice(){quickRoll(Number($('die').value),Number($('modifier').value)||0,'Dice roll')}function quickRoll(s,m,label){const r=rollDie(s);$('rollresult').textContent=r+m;$('rolldetail').textContent=`${label}: d${s} (${r}) ${m<0?'−':'+'} ${Math.abs(m)} = ${r+m}${s===20&&r===20?' · NATURAL 20!':s===20&&r===1?' · NATURAL 1!':''}`;addCombatLog('Dice: '+label,`d${s}: ${r} ${m<0?'−':'+'} ${Math.abs(m)} = ${r+m}`)}function renderItems(){$('items').innerHTML=state.items.map((x,i)=>`<div class="row"><span>${esc(x)}</span><button class="secondary" aria-label="Remove ${esc(x)}" onclick="removeItem(${i})">×</button></div>`).join('')||'<p class="empty">No equipment yet.</p>'}function addItem(){const x=$('newitem').value.trim();if(!x)return;state.items.push(x);$('newitem').value='';save();renderItems()}function removeItem(i){if(!askImportant('Remove this item from inventory?'))return;state.items.splice(i,1);save();renderItems()}function updateGold(){state.gold=Math.max(0,Number($('goldinput').value)||0);save();render()}let currentJournalTab='sessions',editEntryIndex=-1,editSketchIndex=-1;
+
+const KIRAN_ID='kiran-legacy';
+let characterLibrary=null,activeCharacterId=null;
+function blankCharacterData(){return {hp:10,maxhp:10,hitdice:1,arrows:0,success:0,fail:0,gold:0,items:[],entries:[],sketches:[],combatnotes:'',storynotes:'',conditions:[],attackTurnUsed:false,combatLog:[],sheet:{level:1,xp:0,ac:10,speed:30,inspiration:false,abilities:{STR:10,DEX:10,CON:10,INT:10,WIS:10,CHA:10},skills:{},saves:{},tools:'',languages:'',other:'',notes:''}}}
+function initializeLibrary(){
+ try{const existing=JSON.parse(localStorage.getItem(LIBRARY_KEY)||'null');if(existing&&Array.isArray(existing.characters)){characterLibrary=existing;return}}catch(e){}
+ characterLibrary={schema:1,characters:[]};
+ try{const legacy=localStorage.getItem(KEY);if(legacy){const parsed=JSON.parse(legacy);if(parsed&&typeof parsed==='object'&&Array.isArray(parsed.items))characterLibrary.characters.push({id:KIRAN_ID,name:'Kiran Silverbough',species:'Wood Elf',className:'Rogue',subclass:'Assassin',background:'Outlander',edition:'2014',data:JSON.parse(JSON.stringify({...defaults,...parsed}))})}}catch(e){console.warn('Legacy data unavailable',e)}
+ // If storage is full, never discard the original Kiran save.
+ try{localStorage.setItem(LIBRARY_KEY,JSON.stringify(characterLibrary))}catch(e){alert('Unable to initialize character library. Your original Kiran data remains untouched. Export a backup and free up device storage.');}
+}
+function activeCharacter(){return characterLibrary?.characters.find(c=>c.id===activeCharacterId)||null}
+function showCharacterLibrary(){
+ if(!confirmLeaveEditing())return;
+ document.getElementById('character-library').classList.remove('hidden');document.querySelector('main.wrap').classList.add('hidden');document.querySelector('nav.tabs').classList.add('hidden');renderCharacterLibrary();scrollTo(0,0);
+}
+function renderCharacterLibrary(){
+ const host=$('character-cards');if(!host)return;
+ const chars=characterLibrary.characters;
+ v3aRenderDrafts();
+ host.innerHTML=chars.map(c=>`<div class="library-card-row"><button class="adventurer-card" onclick="openCharacter('${esc(c.id)}')"><span class="avatar">${c.data?.portrait?`<img src="${/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(c.data.portrait)?c.data.portrait:''}" alt="">`:'✦'}</span><span class="adventurer-info"><strong>${esc(c.name)}</strong><small>${esc([c.species,c.className,c.subclass].filter(Boolean).join(' · ')||'New adventurer')}</small><small>Level ${Number(c.data?.sheet?.level)||1} · ${esc(c.edition||'2014')} rules${c.creationStatus==='draft'?' · DRAFT':''}</small></span><span aria-hidden="true">›</span></button><button class="delete-adventurer" onclick="deleteAdventurer('${esc(c.id)}')" aria-label="Delete ${esc(c.name)}">Delete</button></div>`).join('')||'<div class="empty-party"><div class="empty-symbol">✧</div><h3>Your story begins here</h3><p>No adventurers yet. Create your first character to begin.</p></div>';
+}
+function openCharacter(id){
+ if(activeCharacterId&&activeCharacterId!==id&&!confirmLeaveEditing())return;
+ const c=characterLibrary.characters.find(c=>c.id===id);if(!c)return;
+ activeCharacterId=id;state=JSON.parse(JSON.stringify(c.data));
+ $('character-library').classList.add('hidden');document.querySelector('main.wrap').classList.remove('hidden');document.querySelector('nav.tabs').classList.remove('hidden');
+ $('active-character-name').textContent=c.name;
+ $('active-character-summary').textContent=[c.species,c.className,c.subclass].filter(Boolean).join(' · ');
+ $('character-name-input').value=c.name;$('character-species-input').value=c.species||'';$('character-class-input').value=c.className||'';$('character-subclass-input').value=c.subclass||'';$('character-background-input').value=c.background||'';$('character-edition-input').value=c.edition||'2014';
+ clearSaved('character');clearSaved('story');applyCharacterContext();render();renderStoryContext();sheetEditing=false;storyEditing=false;sheetSnapshot=null;storySnapshot=null;sheetEditControls();storyEditControls();renderCombatHistory();showTab('home');
+}
+function applyCharacterContext(){
+ const c=activeCharacter();if(!c)return;const rogue=c.className.trim().toLowerCase()==='rogue',assassin=c.subclass.trim().toLowerCase()==='assassin';
+ const head=document.querySelector('main.wrap header');
+ if(head){
+  const heading=head.querySelector('h1');
+  if(heading)heading.textContent=c.name;
+  const subtitle=head.querySelector('.sub');
+  if(subtitle){
+   const level=Number(state.sheet?.level)||1;
+   subtitle.innerHTML=esc([c.species,c.className,c.subclass?'('+c.subclass+')':''].filter(Boolean).join(' · '))+' · <span id="header-level">Level '+level+'</span>';
+  }
+ }
+ const shortcut=$('manual-sheet-shortcut');if(shortcut)shortcut.classList.toggle('hidden',c.id===KIRAN_ID||Boolean(state.setupReminderDismissed));
+ const rogueTools=c.className?.trim().toLowerCase()==='rogue'&&c.subclass?.trim().toLowerCase()==='assassin'&&c.edition==='2014';
+ const quickPanel=[...document.querySelectorAll('#home .panel')].find(x=>x.querySelector('h3')?.textContent==='Quick Reference');
+ if(quickPanel)quickPanel.classList.toggle('hidden',!rogueTools);
+ const planner=[...document.querySelectorAll('#combat .panel')].find(x=>x.querySelector('h3')?.textContent==='Attack Planner');
+ if(planner)planner.classList.toggle('hidden',!rogueTools);
+ const dicePanel=[...document.querySelectorAll('#combat .panel')].find(x=>x.querySelector('h3')?.textContent==='Dice Roller');
+ if(dicePanel){const quickButtons=dicePanel.querySelector('.actions');if(quickButtons)quickButtons.classList.toggle('hidden',!rogueTools);}
+ $('guide-heading').textContent='Learn to Play · '+c.name;
+ $('story-origin-title').textContent='Character Background';document.querySelectorAll('.kiran-only').forEach(el=>el.classList.toggle('hidden',c.id!==KIRAN_ID));
+ $('story-origin-text').textContent=c.id===KIRAN_ID?'Kiran Silverbough is a 106-year-old Wood Elf from Sylvaeren. His parents, Caelan and Liora Silverbough, disappeared on an expedition when he was 62. His grandfather Thalion Silverbough raised him.':'Record your character’s story and background in the notes below.';
+ $('rogue-context-warning').classList.toggle('hidden',rogue&&assassin);
+ $('rogue-context-warning').textContent=rogue&&assassin?'':'The combat planner and Rogue abilities were originally built for Kiran’s Assassin Rogue. For this character, use the universal dice roller, editable stats, and manual notes; class-specific automation is not yet supported.';
+ $('sheet-identity-label').textContent=c.name+' · '+[c.species,c.className].filter(Boolean).join(' · ');
+}
+
+function dismissCharacterReminder(){
+ if(!activeCharacterId)return;
+ state.setupReminderDismissed=true;
+ if(save())$('manual-sheet-shortcut').classList.add('hidden');
+}
+function createAdventurer(){
+ const name=$('new-character-name').value.trim(),species=$('new-character-species').value.trim(),className=$('new-character-class').value.trim();
+ if(!name){$('create-character-status').textContent='Please enter a character name.';return}
+ if(name.length>80){$('create-character-status').textContent='Keep names under 80 characters.';return}
+ const c={id:'hero-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),name,species,className,subclass:$('new-character-subclass').value.trim(),background:$('new-character-background').value.trim(),edition:$('new-character-edition').value,data:blankCharacterData()};
+ characterLibrary.characters.push(c);
+ try{localStorage.setItem(LIBRARY_KEY,JSON.stringify(characterLibrary))}catch(e){characterLibrary.characters.pop();$('create-character-status').textContent='Could not save. Check available storage.';return}
+ $('new-character-form').classList.add('hidden');$('create-character-status').textContent='';openCharacter(c.id);
+}
+function updateCharacterIdentity(){const c=activeCharacter();if(!c)return;const old={...c};
+ c.name=$('character-name-input').value.trim()||c.name;c.species=$('character-species-input').value.trim();c.className=$('character-class-input').value.trim();c.subclass=$('character-subclass-input').value.trim();c.background=$('character-background-input').value.trim();c.edition=$('character-edition-input').value;
+ try{localStorage.setItem(LIBRARY_KEY,JSON.stringify(characterLibrary))}catch(e){Object.assign(c,old);alert('Could not save changes.');return}
+ $('active-character-name').textContent=c.name;$('active-character-summary').textContent=[c.species,c.className,c.subclass].filter(Boolean).join(' · ');applyCharacterContext();render();alert('Character details saved.');
+}
+function exportLibrary(){const blob=new Blob([JSON.stringify({format:'wayfarers-tome-library',...characterLibrary,creatorDrafts:v3aRead()},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='wayfarers-tome-all-characters.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),5000)}
+async function importLibrary(ev){const file=ev.target.files?.[0];if(!file)return;try{const data=JSON.parse(await file.text());if(data.format!=='wayfarers-tome-library'||!Array.isArray(data.characters)||data.characters.length>100||!data.characters.every(c=>typeof c.id==='string'&&typeof c.name==='string'&&c.data&&Array.isArray(c.data.items)&&Array.isArray(c.data.entries)))throw Error('Not a valid Wayfarer’s Tome library backup');if(!confirm('Replace the entire character library with this backup? Export your current library first.'))return;const previous=characterLibrary;characterLibrary={schema:1,characters:data.characters};try{localStorage.setItem(LIBRARY_KEY,JSON.stringify(characterLibrary))}catch(e){characterLibrary=previous;throw e}if(!v3aWrite(Array.isArray(data.creatorDrafts)?data.creatorDrafts:[])){characterLibrary=previous;localStorage.setItem(LIBRARY_KEY,JSON.stringify(previous));throw Error('Could not restore creator drafts; library rollback attempted')}activeCharacterId=null;showCharacterLibrary();alert('Character library restored.')}catch(e){alert('Import failed: '+e.message)}finally{ev.target.value=''}}
+function deleteAdventurer(){const c=activeCharacter();if(!c)return;if(!confirm('Delete '+c.name+'? This permanently removes their saved character data from this device. Export a backup first.'))return;if(!confirm('Confirm permanent deletion of '+c.name+'?'))return;const prev=characterLibrary.characters;characterLibrary.characters=prev.filter(x=>x.id!==c.id);try{localStorage.setItem(LIBRARY_KEY,JSON.stringify(characterLibrary))}catch(e){characterLibrary.characters=prev;alert('Could not save deletion.');return}activeCharacterId=null;showCharacterLibrary()}
+
+function journalTab(tab){currentJournalTab=tab;document.querySelectorAll('.journal-tabs button').forEach(b=>b.classList.toggle('selected',b.id==='jt-'+tab));$('journal-writing').classList.toggle('hidden',tab==='sketches');$('journal-sketches').classList.toggle('hidden',tab!=='sketches');if(tab!=='sketches'){$('journal-form-title').textContent=({sessions:'New Session Note',people:'New Person or Place',quests:'New Quest'})[tab];$('journal-title-label').textContent=({sessions:'Session title',people:'Name or location',quests:'Quest title'})[tab];cancelEntryEdit();renderEntries()}else{initSketch();renderSketches()}}
+function addEntry(){const title=$('entrytitle').value.trim(),body=$('entrybody').value.trim();if(!title&&!body)return;const entry={title:title||'Untitled',body,date:new Date().toLocaleDateString(),type:currentJournalTab};if(editEntryIndex>=0){state.entries[editEntryIndex]={...state.entries[editEntryIndex],...entry}}else state.entries.unshift(entry);save();cancelEntryEdit();renderEntries()}
+function cancelEntryEdit(){editEntryIndex=-1;$('entrytitle').value='';$('entrybody').value='';$('entrysave').textContent='Save Entry';$('entrycancel').classList.add('hidden')}
+function editEntry(i){const e=state.entries[i];editEntryIndex=i;$('entrytitle').value=e.title;$('entrybody').value=e.body;$('entrysave').textContent='Update Entry';$('entrycancel').classList.remove('hidden');$('entrytitle').focus()}
+function removeEntry(i){if(!askImportant('Delete this journal entry?'))return;state.entries.splice(i,1);save();cancelEntryEdit();renderEntries()}
+function renderEntries(){$('entries').innerHTML=state.entries.map((e,i)=>({...e,index:i})).filter(e=>(e.type||'sessions')===currentJournalTab).map(e=>`<div class="panel"><h3>${esc(e.title)}</h3><div class="entry-meta">${esc(e.date||'Undated')}</div><p class="note">${esc(e.body)}</p><div class="actions"><button class="secondary" onclick="editEntry(${e.index})">Edit</button><button class="secondary" onclick="removeEntry(${e.index})">Delete</button></div></div>`).join('')||'<p class="empty">Nothing recorded here yet.</p>'}
+let canvas,ctx,drawing=false,strokeSnapshot=[],sketchInitialized=false;
+function initSketch(){if(sketchInitialized)return;canvas=$('sketchpad');ctx=canvas.getContext('2d');sketchInitialized=true;blankCanvas();canvas.addEventListener('pointerdown',e=>{e.preventDefault();strokeSnapshot.push(ctx.getImageData(0,0,canvas.width,canvas.height));if(strokeSnapshot.length>12)strokeSnapshot.shift();drawing=true;canvas.setPointerCapture(e.pointerId);const p=point(e);ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+.1,p.y+.1);ctx.strokeStyle=$('inkcolor').value;ctx.lineWidth=Number($('inksize').value);ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke()});canvas.addEventListener('pointermove',e=>{if(!drawing)return;e.preventDefault();const p=point(e);ctx.lineTo(p.x,p.y);ctx.stroke()});['pointerup','pointercancel','lostpointercapture'].forEach(t=>canvas.addEventListener(t,()=>drawing=false))}
+function point(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*canvas.width/r.width,y:(e.clientY-r.top)*canvas.height/r.height}}
+function blankCanvas(){ctx.fillStyle='#f2e8cd';ctx.fillRect(0,0,canvas.width,canvas.height);strokeSnapshot=[]}
+function undoStroke(){if(strokeSnapshot.length)ctx.putImageData(strokeSnapshot.pop(),0,0)}
+function clearSketch(){if(confirm('Clear the drawing canvas?'))blankCanvas()}
+async function importArtwork(event){
+ const file=event.target.files?.[0];if(!file)return;
+ initSketch();
+ if(!file.type.startsWith('image/')){alert('Please choose an image file.');event.target.value='';return;}
+ if(file.size>25*1024*1024){alert('Please choose an image under 25 MB.');event.target.value='';return;}
+ const objectUrl=URL.createObjectURL(file);const img=new Image();
+ img.onload=()=>{
+   strokeSnapshot.push(ctx.getImageData(0,0,canvas.width,canvas.height));if(strokeSnapshot.length>12)strokeSnapshot.shift();
+   ctx.fillStyle='#f2e8cd';ctx.fillRect(0,0,canvas.width,canvas.height);
+   const scale=Math.min(canvas.width/img.width,canvas.height/img.height);
+   const w=img.width*scale,h=img.height*scale;
+   ctx.drawImage(img,(canvas.width-w)/2,(canvas.height-h)/2,w,h);
+   $('sketchstatus').textContent='Image loaded. Add a caption or draw over it, then tap Save Sketch.';
+   URL.revokeObjectURL(objectUrl);
+ };
+ img.onerror=()=>{URL.revokeObjectURL(objectUrl);alert('Could not open this image. Try a JPEG or PNG.');};
+ img.src=objectUrl;event.target.value='';
+}
+function removeImportedImage(){initSketch();if(confirm('Start with a blank canvas? Unsaved changes will be lost.'))blankCanvas()}
+function saveSketch(){initSketch();const title=$('sketchtitle').value.trim()||'Untitled sketch';const entry={title,caption:$('sketchnote').value.trim(),date:new Date().toLocaleDateString(),image:canvas.toDataURL('image/jpeg',.72)};const old=state.sketches.slice();if(editSketchIndex>=0)state.sketches[editSketchIndex]=entry;else state.sketches.unshift(entry);if(!save()){state.sketches=old;return}cancelSketchEdit();renderSketches();$('sketchstatus').textContent='Sketch saved on this device.'}
+function cancelSketchEdit(){editSketchIndex=-1;$('sketchtitle').value='';$('sketchnote').value='';$('sketchcancel').style.display='none';if(sketchInitialized)blankCanvas()}
+function editSketch(i){initSketch();const e=state.sketches[i];editSketchIndex=i;$('sketchtitle').value=e.title;$('sketchnote').value=e.caption||'';$('sketchcancel').style.display='inline-block';const im=new Image();im.onload=()=>{blankCanvas();ctx.drawImage(im,0,0,canvas.width,canvas.height)};im.src=e.image;canvas.scrollIntoView({behavior:'smooth',block:'center'})}
+function removeSketch(i){if(!askImportant('Delete this sketch?'))return;state.sketches.splice(i,1);save();renderSketches()}
+function renderSketches(){$('sketchlist').innerHTML=state.sketches.map((e,i)=>`<div class="panel"><h3>${esc(e.title)}</h3><div class="entry-meta">${esc(e.date||'Undated')}</div><img class="thumb" src="${/^data:image\/jpeg;base64,[a-zA-Z0-9+/=]+$/.test(e.image)?e.image:''}" alt="${esc(e.title)}"><p class="note">${esc(e.caption||'')}</p><div class="actions"><button class="secondary" onclick="editSketch(${i})">Edit</button><button class="secondary" onclick="removeSketch(${i})">Delete</button></div></div>`).join('')||'<p class="empty">Your sketchbook is waiting for its first drawing.</p>'}
+function saveNotes(){state.combatnotes=$('combatnotes').value;state.storynotes=$('storynotes').value;save();alert('Notes saved on this device.')}function exportData(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='wayfarers-character-'+(activeCharacter()?.name||'adventurer').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),3000)}async function importData(ev){const f=ev.target.files?.[0];if(!f)return;try{const parsed=JSON.parse(await f.text());if(!Array.isArray(parsed.items)||!Array.isArray(parsed.entries)||typeof parsed.hp!=='number'||(parsed.sketches!==undefined&&!Array.isArray(parsed.sketches)))throw Error('Invalid character backup');if(!confirm('Replace current saved progress with this backup?'))return;state={...blankCharacterData(),...parsed};if(!save())return;render();renderSketches();renderCombatHistory();alert('Backup imported.')}catch(e){alert('Could not import: '+e.message)}ev.target.value=''}
+const ABILITIES=['STR','DEX','CON','INT','WIS','CHA'];
+const SKILLS=[['Acrobatics','DEX'],['Animal Handling','WIS'],['Arcana','INT'],['Athletics','STR'],['Deception','CHA'],['History','INT'],['Insight','WIS'],['Intimidation','CHA'],['Investigation','INT'],['Medicine','WIS'],['Nature','INT'],['Perception','WIS'],['Performance','CHA'],['Persuasion','CHA'],['Religion','INT'],['Sleight of Hand','DEX'],['Stealth','DEX'],['Survival','WIS']];
+const ROGUE_FEATURES=[[1,'Expertise, Sneak Attack, Thieves’ Cant'],[2,'Cunning Action'],[3,'Assassin: Assassinate'],[4,'Ability Score Improvement'],[5,'Uncanny Dodge'],[6,'Expertise'],[7,'Evasion'],[8,'Ability Score Improvement'],[9,'Assassin: Infiltration Expertise'],[10,'Ability Score Improvement'],[11,'Reliable Talent'],[12,'Ability Score Improvement'],[13,'Assassin: Impostor'],[14,'Blindsense'],[15,'Slippery Mind'],[16,'Ability Score Improvement'],[17,'Assassin: Death Strike'],[18,'Elusive'],[19,'Ability Score Improvement'],[20,'Stroke of Luck']];
+const XP_THRESHOLDS=[0,300,900,2700,6500,14000,23000,34000,48000,64000,85000,100000,120000,140000,165000,195000,225000,265000,305000,355000];
+const SHEET_DEFAULTS={level:3,xp:900,ac:14,speed:35,inspiration:false,abilities:{STR:8,DEX:17,CON:13,INT:10,WIS:15,CHA:12},skills:{'Stealth':2,'Perception':2,'Acrobatics':1,'Deception':1,'Investigation':1,'Athletics':1,'Survival':1},saves:{DEX:true,INT:true},tools:'Thieves’ tools; flute (Outlander). Confirm any additional proficiencies with your DM.',languages:'Common, Elvish. Confirm Outlander bonus language with your DM.',other:'Light armor; simple weapons; hand crossbows; longswords; rapiers; shortswords.',notes:''};
+function sheet(){if(!state.sheet||typeof state.sheet!=='object')state.sheet=JSON.parse(JSON.stringify(SHEET_DEFAULTS));for(const k of Object.keys(SHEET_DEFAULTS)){if(state.sheet[k]===undefined||state.sheet[k]===null)state.sheet[k]=JSON.parse(JSON.stringify(SHEET_DEFAULTS[k]));}return state.sheet}
+function abilityMod(ability){return Math.floor(((Number(sheet().abilities[ability])||0)-10)/2)}
+function signed(n){return n>=0?'+'+n:String(n)}
+function profBonus(){return Math.ceil(Number(sheet().level)/4)+1}
+function skillBonus(name,ability){return abilityMod(ability)+profBonus()*(Number(sheet().skills[name])||0)}
+function updateSheetField(field,value){const s=sheet();if(field==='inspiration')s.inspiration=value==='true';else {const n=Number(value);if(!Number.isFinite(n))return;s[field]=Math.max(field==='level'||field==='maxhp'?1:0,Math.min(field==='level'?20:999999,Math.floor(n)));if(field==='maxhp'){state.maxhp=s.maxhp;state.hp=Math.min(state.hp,state.maxhp)}}if(!sheetEditing)save();render()}
+function updateSheetAbility(ability,value){sheet().abilities[ability]=Math.max(1,Math.min(30,Number(value)||1));if(!sheetEditing)save();render()}
+function updateSheetSkill(name,value){sheet().skills[name]=Number(value);if(!sheetEditing)save();renderSheet()}
+function updateSheetSave(ability,value){sheet().saves[ability]=value==='true';if(!sheetEditing)save();renderSheet()}
+function updateSheetText(key,value){sheet()[key]=value;if(!sheetEditing)save()}
+function renderSheet(){const s=sheet(),p=profBonus(),level=Math.max(1,Math.min(20,Number(s.level)||3));
+const current=activeCharacter();
+if(current){const h=document.querySelector('main.wrap header .sub');if(h)h.innerHTML=esc([current.species,current.className,current.subclass?'('+current.subclass+')':''].filter(Boolean).join(' · '))+' · <span id="header-level">Level '+level+'</span>';}
+
+$('sheet-level').value=level;$('sheet-xp').value=s.xp;$('sheet-maxhp').value=state.maxhp;$('sheet-ac').value=s.ac;$('sheet-speed').value=s.speed;$('sheet-inspiration').value=String(s.inspiration);$('sheet-level-label').textContent='Level '+level;const headerLevel=$('header-level');if(headerLevel)headerLevel.textContent='Level '+level;
+$('sheet-progression').textContent='Proficiency '+signed(p)+(activeCharacter()?.className?.toLowerCase()==='rogue'?' · Sneak Attack '+Math.ceil(level/2)+'d6 · Hit Dice '+level+'d8':' · Level '+level+' · Class features tracked manually')+(level<20?' · Next level at '+XP_THRESHOLDS[level]+' XP':' · Maximum level');
+$('sheet-abilities').innerHTML=ABILITIES.map(a=>`<label class="stat" style="margin:0"><span>${a} ${signed(abilityMod(a))}</span><input type="number" min="1" max="30" value="${Number(s.abilities[a])}" aria-label="${a} score" onchange="updateSheetAbility('${a}',this.value)"></label>`).join('');
+$('sheet-saves').innerHTML=ABILITIES.map(a=>`<div class="row"><span>${a} <b>${signed(abilityMod(a)+(s.saves[a]?p:0))}</b></span><label style="margin:0"><input type="checkbox" style="width:auto" ${s.saves[a]?'checked':''} onchange="updateSheetSave('${a}',String(this.checked))"> Proficient</label><button class="secondary" onclick="sheetRoll('${a} save',${abilityMod(a)+(s.saves[a]?p:0)})">Roll</button></div>`).join('');
+$('sheet-skills').innerHTML=SKILLS.map(([name,a])=>`<div class="row"><span>${name} <span class="sheet-small">(${a})</span> <b>${signed(skillBonus(name,a))}</b></span><select aria-label="${name} proficiency" onchange="updateSheetSkill('${name}',this.value)"><option value="0" ${!s.skills[name]?'selected':''}>None</option><option value="1" ${s.skills[name]===1?'selected':''}>Proficient</option><option value="2" ${s.skills[name]===2?'selected':''}>Expertise</option></select><button class="secondary" onclick="sheetRoll('${name}',${skillBonus(name,a)})">🎲</button></div>`).join('');
+$('sheet-passive').textContent=10+skillBonus('Perception','WIS');
+$('sheet-weapons').innerHTML=activeCharacter()?.id!==KIRAN_ID?`<div class="row"><span>Initiative</span><b>${signed(abilityMod('DEX'))}</b><button onclick="sheetRoll('Initiative',${abilityMod('DEX')})">Roll</button></div><p class="sub">Track weapons in Gear and attack details in character notes.</p>`:`<div class="row"><span>Initiative</span><b>${signed(abilityMod('DEX'))}</b><button onclick="sheetRoll('Initiative',${abilityMod('DEX')})">Roll</button></div><div class="row"><span>Shortbow · 1d6${signed(abilityMod('DEX'))} piercing</span><b>${signed(p+abilityMod('DEX'))} to hit</b><button onclick="sheetRoll('Shortbow attack',${p+abilityMod('DEX')})">Roll</button></div><div class="row"><span>Rapier · 1d8${signed(abilityMod('DEX'))} piercing</span><b>${signed(p+abilityMod('DEX'))} to hit</b><button onclick="sheetRoll('Rapier attack',${p+abilityMod('DEX')})">Roll</button></div><div class="row"><span>Sneak Attack</span><b>${Math.ceil(level/2)}d6</b></div>`;
+$('sheet-features').innerHTML=(activeCharacter()?.className?.toLowerCase()==='rogue'&&activeCharacter()?.subclass?.toLowerCase()==='assassin'?ROGUE_FEATURES.filter(([l])=>l<=level).map(([l,f])=>`<div class="sheet-feature"><span class="tag">LEVEL ${l}</span><div>${esc(f)}</div></div>`).join(''):'<p class="sub">Add class features manually in the notes below. Class automation is coming in future releases.</p>');
+for(const k of ['tools','languages','other','notes']){const el=$('sheet-'+k);if(document.activeElement!==el)el.value=s[k]||''}
+$('abilities').innerHTML=ABILITIES.map(a=>`<div class="stat"><strong>${s.abilities[a]}</strong><span>${a} · ${signed(abilityMod(a))}</span></div>`).join('');
+$('home-sneak').textContent=activeCharacter()?.className?.toLowerCase()==='rogue'?Math.ceil(level/2)+'d6':'Manual';$('home-bow').textContent=signed(p+abilityMod('DEX'))+' to hit · 1d6'+signed(abilityMod('DEX'));$('home-rapier').textContent=signed(p+abilityMod('DEX'))+' to hit · 1d8'+signed(abilityMod('DEX'));$('ac').textContent=s.ac;document.querySelector('#home .grid .stat:nth-child(2) strong').textContent=signed(abilityMod('DEX'));document.querySelector('#home .grid .stat:nth-child(3) strong').textContent=s.speed;
+ sheetEditControls();
+}
+function sheetRoll(label,modifier){showTab('combat');quickRoll(20,modifier,label)}
+
+const CONDITION_NAMES=['Blinded','Charmed','Deafened','Frightened','Grappled','Incapacitated','Invisible','Paralyzed','Petrified','Poisoned','Prone','Restrained','Stunned','Unconscious','Exhaustion'];
+function renderConditions(){const host=$('condition-list');if(!host)return;const selected=Array.isArray(state.conditions)?state.conditions:[];host.innerHTML=CONDITION_NAMES.map((name,i)=>`<label><input type="checkbox" ${selected.includes(name)?'checked':''} onchange="toggleCondition(${i},this.checked)">${name}</label>`).join('')}
+function toggleCondition(i,checked){const name=CONDITION_NAMES[i];if(!Array.isArray(state.conditions))state.conditions=[];state.conditions=state.conditions.filter(x=>x!==name);if(checked)state.conditions.push(name);save();renderConditions()}
+function clearConditions(){if(!confirm('Clear all active conditions?'))return;state.conditions=[];save();renderConditions()}
+function resetAttackTurn(){state.attackTurnUsed=false;$('attack-sneak').checked=false;$('attack-surprise').checked=false;save();$('attack-result').textContent='New turn ready. Sneak Attack tracking reset.'}
+function rollAttack(){
+ const weapon=$('attack-weapon').value,mode=$('attack-mode').value;
+ const diceSides={shortbow:6,rapier:8,dagger:4}[weapon]||6;
+ const label={shortbow:'Shortbow',rapier:'Rapier',dagger:'Dagger'}[weapon]||'Weapon';
+ const extra=Number($('attack-extra').value)||0, damageExtra=Number($('attack-damage-extra').value)||0;
+ const bonusDice=Math.max(0,Math.min(30,Math.floor(Number($('attack-bonus-dice').value)||0)));
+ const sneak=$('attack-sneak').checked, surprise=$('attack-surprise').checked;
+ const natural1=rollDie(20),natural2=mode==='normal'?null:rollDie(20);
+ const natural=natural2===null?natural1:mode==='advantage'?Math.max(natural1,natural2):Math.min(natural1,natural2);
+ const modifier=profBonus()+abilityMod('DEX')+extra,total=natural+modifier;
+ const acString=$('attack-ac').value.trim(),targetAC=acString===''?null:Number(acString);
+ const hit=natural===1?false:natural===20?true:targetAC===null?null:total>=targetAC;
+ const crit=natural===20||(surprise&&hit===true);
+ const sneakDice=sneak?Math.ceil(sheet().level/2):0;
+ const diceMultiplier=crit?2:1;
+ const damageRolls=Array.from({length:diceMultiplier},()=>rollDie(diceSides));
+ const sneakRolls=Array.from({length:sneakDice*diceMultiplier},()=>rollDie(6));
+ const bonusRolls=Array.from({length:bonusDice*diceMultiplier},()=>rollDie(6));
+ const fixed=abilityMod('DEX')+damageExtra;
+ const damage=damageRolls.reduce((a,b)=>a+b,0)+sneakRolls.reduce((a,b)=>a+b,0)+bonusRolls.reduce((a,b)=>a+b,0)+fixed;
+ const diceText=natural2===null?`${natural1}`:`${natural1}, ${natural2} → ${natural}`;
+ const status=hit===null?'Hit not confirmed (no target AC)':hit?'HIT':'MISS';
+ const sneakWarning=sneak&&state.attackTurnUsed?'\n⚠ Sneak Attack was already marked used this turn. Confirm before applying it again.':'';
+ const critNote=surprise&&hit===null?'\n⚠ Surprised target selected: enter target AC to confirm a hit before applying Assassinate critical damage.':'';
+ const lines=[`${label} · ${mode}`,`d20: ${diceText} ${modifier<0?'−':'+'} ${Math.abs(modifier)} = ${total}`,`Result: ${status}${natural===1?' (natural 1)':natural===20?' (natural 20)':''}`,`Damage ${crit?'(critical dice doubled)':'(rolled for a possible hit)'}: ${damage}`,`Weapon d${diceSides}: [${damageRolls.join(', ')}]`,...(sneak?[`Sneak Attack ${sneakDice*diceMultiplier}d6: [${sneakRolls.join(', ')}]`]:[]),...(bonusDice?[`Extra ${bonusDice*diceMultiplier}d6: [${bonusRolls.join(', ')}]`]:[]),`Fixed damage: ${fixed<0?'−':'+'}${Math.abs(fixed)}`,hit===false?'Do not apply damage on a miss.':'Apply damage only after confirming a hit.',sneakWarning,critNote].filter(Boolean);
+ $('attack-result').textContent=lines.join('\n');addCombatLog('Attack: '+label,lines.join('\n'));
+ if(sneak&&hit===true){state.attackTurnUsed=true;save()}
+}
+function rollDeathSave(){
+ if(state.hp>0){$('death-roll-result').textContent='Death saves are normally rolled at 0 HP. No counters changed.';return}
+ const r=rollDie(20);let note='';
+ if(r===20){state.hp=1;state.success=state.fail=0;note='Natural 20: regain 1 HP.'}
+ else if(r===1){state.fail=Math.min(3,(Number(state.fail)||0)+2);note='Natural 1: two failures.'}
+ else if(r>=10){state.success=Math.min(3,(Number(state.success)||0)+1);note='Success.'}
+ else{state.fail=Math.min(3,(Number(state.fail)||0)+1);note='Failure.'}
+ if(state.success>=3){note+=' Stabilized (3 successes).';}
+ if(state.fail>=3){note+=' Three failures: character dies under normal rules; confirm with DM.';}
+ save();render();$('death-roll-result').textContent=`d20: ${r}. ${note}`;addCombatLog('Death Save',`d20: ${r}. ${note}`);
+}
+
+// Keep previous save key and fields intact for seamless migration from V2.2.
+
+// App releases are published by updating version.json alongside index.html.
+const APP_VERSION='3.0.0-alpha.1';
+let pendingVersion=null, lastUpdateCheck=0, checkingUpdates=false, dismissedVersion=null;
+function versionParts(v){return /^\d+\.\d+\.\d+$/.test(v)?v.split('.').map(Number):null}
+function isNewerVersion(remote,local){const a=versionParts(remote),b=versionParts(local);if(!a||!b)return false;for(let i=0;i<3;i++){if(a[i]!==b[i])return a[i]>b[i]}return false}
+async function checkForUpdates(manual=false){
+  if(checkingUpdates)return;
+  if(!manual&&Date.now()-lastUpdateCheck<5*60*1000)return;
+  checkingUpdates=true;lastUpdateCheck=Date.now();
+  const status=$('updatecheckstatus');if(manual)status.textContent='Checking for updates…';
+  try{
+    const url=new URL('version.json',location.href);url.searchParams.set('t',String(Date.now()));
+    const response=await fetch(url,{cache:'no-store'});
+    if(!response.ok)throw Error('Version information unavailable');
+    const info=await response.json();
+    if(typeof info.version!=='string'||!versionParts(info.version))throw Error('Invalid version information');
+    if(isNewerVersion(info.version,APP_VERSION)){
+      pendingVersion=info.version;
+      if(manual||dismissedVersion!==info.version){
+        $('updatetitle').textContent='Update available · v'+info.version;
+        $('updatemessage').textContent=typeof info.notes==='string'?info.notes.slice(0,240):'A new chapter of Kiran’s Companion is ready.';
+        $('updatebanner').classList.remove('hidden');
+      }
+      status.textContent='Version '+info.version+' is available.';
+    }else{pendingVersion=null;$('updatebanner').classList.add('hidden');status.textContent='You are up to date (v'+APP_VERSION+').'}
+  }catch(err){if(manual)status.textContent='Unable to check right now. Check your connection and try again.';}
+  finally{checkingUpdates=false;}
+}
+function dismissUpdate(){dismissedVersion=pendingVersion;$('updatebanner').classList.add('hidden')}
+function applyUpdate(){
+  // Hide the prompt immediately, then load the latest published app.
+  dismissedVersion=pendingVersion;
+  $('updatebanner').classList.add('hidden');
+  const status=$('updatecheckstatus');
+  if(status)status.textContent='Loading the latest version…';
+  const url=new URL(location.href);url.searchParams.set('app_refresh',String(Date.now()));
+  location.replace(url.href);
+}
+
+// V2.6 settings and connected combat history. The original character save key remains unchanged.
+const CONFIRM_KEY='kiran-companion-confirm-v1';let confirmImportant=true;
+try{confirmImportant=localStorage.getItem(CONFIRM_KEY)!=='off'}catch(e){}
+function setConfirmImportant(on){confirmImportant=!!on;try{localStorage.setItem(CONFIRM_KEY,on?'on':'off')}catch(e){};const el=$('confirm-toggle');if(el)el.checked=confirmImportant}
+function askImportant(message){return !confirmImportant||confirm(message)}
+function addCombatLog(kind,detail){if(!Array.isArray(state.combatLog))state.combatLog=[];state.combatLog.unshift({kind:String(kind).slice(0,60),detail:String(detail).slice(0,1500),at:new Date().toISOString()});state.combatLog=state.combatLog.slice(0,60);save();renderCombatHistory()}
+function renderCombatHistory(){const host=$('combat-history');if(!host)return;const log=Array.isArray(state.combatLog)?state.combatLog:[];host.innerHTML=log.length?log.map((entry,i)=>`<div class="combat-log-item"><strong>${esc(entry.kind||'Event')}</strong><div class="entry-meta">${esc(new Date(entry.at).toLocaleString())}</div><p class="sub">${esc(entry.detail||'')}</p><div class="actions"><button class="secondary" onclick="logToJournal(${i})">Add to Journal</button><button class="secondary" onclick="removeCombatLog(${i})">Remove</button></div></div>`).join(''):'<p class="empty">No combat events recorded yet.</p>'}
+function removeCombatLog(i){if(!askImportant('Remove this combat log entry?'))return;state.combatLog.splice(i,1);save();renderCombatHistory()}
+function clearCombatLog(){if(!Array.isArray(state.combatLog)||!state.combatLog.length)return;if(!askImportant('Clear all combat history?'))return;state.combatLog=[];save();renderCombatHistory()}
+function logToJournal(i){const e=state.combatLog?.[i];if(!e)return;state.entries.unshift({type:'sessions',title:'Combat: '+e.kind,body:e.detail,date:new Date(e.at).toLocaleDateString()});if(save()){journalTab('sessions');renderEntries();showTab('journal');alert('Combat event added to your session journal.')} }
+// Learning preferences are stored separately from character data to preserve V2.4 backups.
+const LEARNING_KEY='kiran-companion-learning-v1';
+let learningMode=true;
+try{learningMode=localStorage.getItem(LEARNING_KEY)!=='off'}catch(e){}
+function setLearningMode(on){learningMode=!!on;try{localStorage.setItem(LEARNING_KEY,on?'on':'off')}catch(e){};document.body.classList.toggle('learning-off',!on);const toggle=$('learning-toggle');if(toggle)toggle.checked=on;const txt=$('learning-state');if(txt)txt.textContent=on?'Helpful rules and explanations':'Compact experienced view'}
+const TURN_ITEMS=[['action','Action','Attack, Dash, Disengage, Dodge, Help, Hide, Ready, Search, Use an Object, or improvise.'],['bonus','Bonus Action','At Rogue level 2+, Cunning Action allows Dash, Disengage, or Hide as a bonus action.'],['movement','Movement','Move up to your speed, possibly splitting movement around actions.'],['reaction','Reaction','You can take a reaction when a qualifying trigger occurs, even outside your turn.']];
+let turnUsed={action:false,bonus:false,movement:false,reaction:false};
+function renderGuideTurn(){const target=$('turn-checklist');if(!target)return;target.innerHTML=TURN_ITEMS.map(([key,label,desc])=>`<div class="turn-option ${turnUsed[key]?'done':''}"><label><input type="checkbox" ${turnUsed[key]?'checked':''} onchange="markGuideTurn('${key}',this.checked)"><span>${label}</span></label><p class="sub learn-only">${desc}</p></div>`).join('')}
+function markGuideTurn(key,value){if(!(key in turnUsed))return;turnUsed[key]=value;renderGuideTurn()}
+function resetGuideTurn(){turnUsed={action:false,bonus:false,movement:false,reaction:false};renderGuideTurn()}
+const GUIDE_CARDS={basic:[['Action vs bonus action','You normally get one action each turn. A bonus action is available only when a feature, spell, or other rule grants one.'],['Dash','Gain extra movement equal to your speed for the current turn.'],['Disengage','Your movement does not provoke opportunity attacks for the rest of this turn.'],['Dodge','Until the start of your next turn, attacks against you have disadvantage if you can see the attacker, and you have advantage on Dexterity saves, unless incapacitated or your speed is 0.'],['Help','Assist an ally with a qualifying task or distract a creature within 5 feet so an ally gains advantage on the next qualifying attack before your next turn.'],['Opportunity attacks','Usually triggered when a creature you can see moves out of your reach without Disengaging; uses your reaction.']],rogue:[['Sneak Attack','Once per turn, add Sneak Attack damage to a hit with a finesse or ranged weapon if you have advantage on the attack, OR an enemy of your target is within 5 feet of it, is not incapacitated, and you do not have disadvantage.'],['Cunning Action','Starting at Rogue level 2, take Dash, Disengage, or Hide as a bonus action.'],['Expertise','For skills you selected for Expertise, double your proficiency bonus. Check your Stats tab for your actual choices.'],['Hiding','Ask your DM whether there is enough cover or concealment to hide. Make a Stealth check when requested.']],assassin:[['Assassinate: early turn','Starting at Rogue level 3, you have advantage on attack rolls against creatures that have not taken a turn yet in the combat.'],['Assassinate: surprised target','Any hit you score against a surprised creature is a critical hit. Your DM determines surprise when combat begins.'],['Critical hit','Roll all attack damage dice twice, including Sneak Attack dice. Add flat modifiers only once.'],['Assassin and initiative','Acting before a creature is useful, but does not automatically mean it is surprised.']]};
+let activeGuideCategory='basic';
+function guideCategory(cat){if(!GUIDE_CARDS[cat])return;activeGuideCategory=cat;document.querySelectorAll('.guide-tabs button').forEach(b=>b.classList.toggle('selected',b.id==='g-'+cat));$('guide-cards').innerHTML=GUIDE_CARDS[cat].map(([title,body])=>`<div class="guide-card"><h3>${esc(title)}</h3><p>${esc(body)}</p></div>`).join('')}
+setLearningMode(learningMode);setConfirmImportant(confirmImportant);renderGuideTurn();guideCategory('basic');
+
+
+let sheetEditing=false,storyEditing=false,sheetSnapshot=null,storySnapshot=null;
+function confirmLeaveEditing(){
+ if(!sheetEditing&&!storyEditing)return true;
+ if(!confirm('You have unsaved character changes. Discard them and leave this page?'))return false;
+ if(sheetEditing)cancelSheetEdit();
+ if(storyEditing)cancelStoryEdit();
+ return true;
+}
+window.addEventListener('beforeunload',e=>{if(sheetEditing||storyEditing){e.preventDefault();e.returnValue='';}});
+function showSaved(section){
+ const el=$(section+'-save-feedback');if(!el)return;
+ el.textContent='✓ Changes saved';
+}
+function clearSaved(section){const el=$(section+'-save-feedback');if(el)el.textContent='';}
+
+function sheetEditControls(){
+ $('sheet-edit-status').textContent=sheetEditing?'Editing character sheet':'View mode · Protected from accidental edits';
+ $('sheet-edit-btn').classList.toggle('hidden',sheetEditing);
+ $('sheet-save-btn').classList.toggle('hidden',!sheetEditing);
+ $('sheet-cancel-btn').classList.toggle('hidden',!sheetEditing);
+ document.querySelectorAll('#sheet-edit-region input,#sheet-edit-region select,#sheet-edit-region textarea').forEach(el=>el.disabled=!sheetEditing);
+ document.querySelectorAll('#sheet-edit-region button').forEach(el=>{if(!/Roll|🎲/.test(el.textContent))el.disabled=!sheetEditing});
+}
+function startSheetEdit(){clearSaved('character');sheetSnapshot={data:JSON.parse(JSON.stringify(state)),identity:JSON.parse(JSON.stringify(activeCharacter()))};sheetEditing=true;sheetEditControls()}
+function commitSheetEdit(){
+ if(!sheetEditing)return;
+ // Text inputs with onchange commit on blur; flush any currently focused field.
+ document.activeElement?.blur();
+ const c=activeCharacter(),prior={...c};
+ c.name=$('character-name-input').value.trim()||c.name;c.species=$('character-species-input').value.trim();c.className=$('character-class-input').value.trim();c.subclass=$('character-subclass-input').value.trim();c.background=$('character-background-input').value.trim();c.edition=$('character-edition-input').value;
+ if(!save()){Object.assign(c,prior);return}
+ sheetEditing=false;sheetSnapshot=null;applyCharacterContext();render();sheetEditControls();showSaved('character');
+ $('active-character-name').textContent=c.name;$('active-character-summary').textContent=[c.species,c.className,c.subclass].filter(Boolean).join(' · ');
+}
+function cancelSheetEdit(){
+ if(!sheetEditing)return;clearSaved('character');
+ state=sheetSnapshot.data;
+ const c=activeCharacter();Object.assign(c,{name:sheetSnapshot.identity.name,species:sheetSnapshot.identity.species,className:sheetSnapshot.identity.className,subclass:sheetSnapshot.identity.subclass,background:sheetSnapshot.identity.background,edition:sheetSnapshot.identity.edition});
+ sheetEditing=false;sheetSnapshot=null;
+ $('character-name-input').value=c.name;
+ $('character-species-input').value=c.species||'';
+ $('character-class-input').value=c.className||'';
+ $('character-subclass-input').value=c.subclass||'';
+ $('character-background-input').value=c.background||'';
+ $('character-edition-input').value=c.edition||'2014';
+ applyCharacterContext();render();sheetEditControls();
+ // Keep the user on Stats, rather than reopening the character on Home.
+}
+function storyEditControls(){
+ $('story-edit-status').textContent=storyEditing?'Editing story':'View mode · Protected from accidental edits';
+ ['story-edit-btn','story-save-btn','story-cancel-btn'].forEach((id,i)=>$(id).classList.toggle('hidden',i===0?storyEditing:!storyEditing));
+ $('storynotes').disabled=!storyEditing;$('storybackstory').disabled=!storyEditing;
+}
+function startStoryEdit(){clearSaved('story');storySnapshot={notes:state.storynotes||'',backstory:state.backstory||''};storyEditing=true;storyEditControls()}
+function commitStoryEdit(){
+ state.storynotes=$('storynotes').value;state.backstory=$('storybackstory').value;
+ if(!save())return;
+ storyEditing=false;storySnapshot=null;renderStoryContext();storyEditControls();showSaved('story');
+}
+function cancelStoryEdit(){
+ if(!storyEditing)return;clearSaved('story');
+ state.storynotes=storySnapshot.notes;state.backstory=storySnapshot.backstory;storyEditing=false;storySnapshot=null;renderStoryContext();storyEditControls();
+}
+function renderStoryContext(){
+ const c=activeCharacter();if(!c)return;
+ $('storybackstory').value=state.backstory||'';
+ $('storynotes').value=state.storynotes||'';
+ const origin=$('story-origin-text');
+ if(c.id!==KIRAN_ID)origin.textContent=state.backstory?.trim()||'Your backstory has not been written yet. Select Edit to begin.';
+ else if(state.backstory?.trim())origin.textContent=state.backstory;
+}
+function deleteAdventurer(id){
+ const c=characterLibrary?.characters.find(c=>c.id===id);if(!c)return;
+ if(!confirm('Permanently delete '+c.name+' and all their notes, equipment, sketches and progress? This cannot be undone. Export a backup first if you want to keep them.'))return;
+ const remaining=characterLibrary.characters.filter(x=>x.id!==id);
+ try{localStorage.setItem(LIBRARY_KEY,JSON.stringify({...characterLibrary,characters:remaining}))}
+ catch(e){alert('Deletion could not be saved. No characters were removed.');return}
+ characterLibrary.characters=remaining;
+ if(activeCharacterId===id){activeCharacterId=null;state=blankCharacterData()}
+ renderCharacterLibrary();
+}
+
+
+// V3.0A: isolated creator foundation. Do not mutate existing character records or storage keys.
+const V3A_DRAFT_KEY='wayfarers-tome-creator-drafts-v3a';
+const V3A_STEPS=['Concept','Identity','Abilities','Review'];
+const V3A_FIELDS=['concept','name','species','className','background','level','notes'];
+let v3aCurrent=null,v3aStep=0,v3aModeName='guided';
+function v3aRead(){try{const d=JSON.parse(localStorage.getItem(V3A_DRAFT_KEY)||'[]');return Array.isArray(d)?d:[]}catch(e){console.warn('Creator drafts unreadable',e);return []}}
+function v3aWrite(list){try{localStorage.setItem(V3A_DRAFT_KEY,JSON.stringify(list));return true}catch(e){$('v3a-status').textContent='Draft could not be saved. Check device storage and export a backup.';return false}}
+function v3aId(){return 'draft-'+Date.now()+'-'+Math.random().toString(36).slice(2,10)}
+function v3aNew(){return {id:v3aId(),schemaVersion:3,status:'draft',mode:'guided',step:0,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),fields:{concept:'',name:'',species:'',className:'',background:'',level:1,notes:''},choices:{},validation:{}}}
+function v3aOpen(id){const list=v3aRead();v3aCurrent=id?list.find(d=>d.id===id):null;if(!v3aCurrent){v3aCurrent=v3aNew();if(!v3aWrite([...list,v3aCurrent]))return}v3aStep=v3aCurrent.step||0;v3aModeName=v3aCurrent.mode||'guided';$('v3a-creator').classList.remove('hidden');$('new-character-form').classList.add('hidden');v3aRender();$('v3a-creator').scrollIntoView({block:'start'})}
+function v3aPersist(){if(!v3aCurrent)return false;const list=v3aRead();const copy=JSON.parse(JSON.stringify(v3aCurrent));copy.step=v3aStep;copy.mode=v3aModeName;copy.updatedAt=new Date().toISOString();const i=list.findIndex(d=>d.id===copy.id);if(i<0)list.push(copy);else list[i]=copy;if(!v3aWrite(list))return false;v3aCurrent=copy;return true}
+function v3aSet(field,value){if(!v3aCurrent||!V3A_FIELDS.includes(field))return;v3aCurrent.fields[field]=field==='level'?Math.min(20,Math.max(1,Number(value)||1)):String(value).slice(0,3000);if(v3aPersist())$('v3a-status').textContent='Draft saved on this device.'}
+function v3aInput(label,key,type='text'){const value=v3aCurrent.fields[key]??'';return '<label for="v3a-'+key+'">'+label+'</label><input id="v3a-'+key+'" type="'+type+'" '+(type==='number'?'min="1" max="20" ':'')+'value="'+esc(value)+'" oninput="v3aSet(\''+key+'\',this.value)">'}
+function v3aRender(){if(!v3aCurrent)return;$('v3a-guided').classList.toggle('secondary',v3aModeName!=='guided');$('v3a-manual').classList.toggle('secondary',v3aModeName!=='manual');$('v3a-steps').innerHTML=V3A_STEPS.map((n,i)=>'<button class="'+(i===v3aStep?'':'secondary')+'" onclick="v3aGo('+i+')">'+(i+1)+'. '+n+'</button>').join('');let content='';if(v3aModeName==='manual')content='<p class="creator-note">Manual mode: edit the complete draft directly.</p>'+v3aInput('Character concept','concept')+v3aInput('Name','name')+v3aInput('Species','species')+v3aInput('Class','className')+v3aInput('Background','background')+v3aInput('Starting level (1–20)','level','number')+v3aInput('Notes','notes');else if(v3aStep===0)content='<h3>The Spark</h3><p class="creator-note">Who might your adventurer become?</p>'+v3aInput('Character concept','concept');else if(v3aStep===1)content='<h3>Your Identity</h3>'+v3aInput('Name','name')+v3aInput('Species','species')+v3aInput('Class','className')+v3aInput('Background','background')+v3aInput('Starting level','level','number');else if(v3aStep===2)content='<h3>Your Abilities</h3><p class="creator-note">Ability score generation and validation arrive in V3.0B. This foundation saves your draft without inventing ability scores.</p>'+v3aInput('Character notes','notes');else content='<h3>Review Your Draft</h3><p class="creator-note">This is not a completed character. Missing mechanical choices will remain unresolved.</p>'+V3A_FIELDS.map(k=>'<p><strong>'+esc(k)+':</strong> '+esc(v3aCurrent.fields[k]||'Not selected')+'</p>').join('');$('v3a-fields').innerHTML=content;$('v3a-status').textContent='Draft autosaves locally. Export a library backup to protect it.'}
+function v3aMode(mode){if(!['guided','manual'].includes(mode))return;v3aModeName=mode;v3aPersist();v3aRender()}
+function v3aGo(step){v3aStep=Math.max(0,Math.min(V3A_STEPS.length-1,step));v3aPersist();v3aRender()}
+function v3aBack(){v3aGo(v3aStep-1)}function v3aNext(){v3aGo(v3aStep+1)}
+function v3aClose(){if(v3aCurrent&&!v3aPersist())return;$('v3a-creator').classList.add('hidden');v3aCurrent=null;renderCharacterLibrary()}
+function v3aPublish(){if(!v3aCurrent||!v3aPersist())return;const f=v3aCurrent.fields;if(!f.name.trim()){v3aGo(1);$('v3a-status').textContent='A character name is required to add this draft to the library.';return}const c={id:'hero-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),name:f.name.trim(),species:f.species,className:f.className,subclass:'',background:f.background,edition:'2014',creationStatus:'draft',creator:{schemaVersion:3,originDraftId:v3aCurrent.id,concept:f.concept,notes:f.notes,choices:v3aCurrent.choices,validation:{ready:false,missing:['Ability scores','Proficiencies','Features','Equipment','Final review']}},data:blankCharacterData()};c.data.sheet.level=Number(f.level)||1;const previous=characterLibrary.characters;const next={...characterLibrary,characters:[...previous,c]};try{localStorage.setItem(LIBRARY_KEY,JSON.stringify(next))}catch(e){$('v3a-status').textContent='Unable to add character to library; original library unchanged.';return}characterLibrary=next;const drafts=v3aRead().filter(d=>d.id!==v3aCurrent.id);if(!v3aWrite(drafts)){$('v3a-status').textContent='Character added, but draft cleanup failed. You can remove the duplicate draft later.';return}v3aCurrent=null;$('v3a-creator').classList.add('hidden');renderCharacterLibrary();alert('Character saved as Draft. Required character choices remain unfinished.')}
+function v3aRenderDrafts(){const host=$('v3a-draft-list');if(!host)return;host.innerHTML=v3aRead().map(d=>'<div class="creator-draft-card"><strong>'+esc(d.fields?.name||'Unnamed Adventurer')+'</strong> <span class="creator-note">· Draft · '+esc(d.mode||'guided')+'</span><div><button class="secondary" onclick="v3aOpen(\''+esc(d.id)+'\')">Resume Draft</button><button class="secondary" onclick="v3aDelete(\''+esc(d.id)+'\')">Delete Draft</button></div></div>').join('')}
+function v3aDelete(id){if(!confirm('Delete this unfinished creator draft? This does not delete characters already in your library.'))return;if(v3aWrite(v3aRead().filter(d=>d.id!==id)))v3aRenderDrafts()}
+
+initializeLibrary();showCharacterLibrary();$('appversion').textContent=APP_VERSION;
+window.addEventListener('pageshow',()=>checkForUpdates());
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkForUpdates()});
+window.addEventListener('online',()=>checkForUpdates());
+
+// V2.7: portrait is stored inside the existing character state and included in JSON backups.
+function renderPortrait(){
+ const img=$('portraitimage'),ph=$('portraitplaceholder'),remove=$('removeportrait');
+ const char=activeCharacter();const initials=(char?.name||'Adventurer').trim().split(/\s+/).map(w=>w[0]||'').slice(0,2).join('').toUpperCase();ph.textContent=initials||'?';img.alt=(char?.name||'Character')+' portrait';$('portraitbutton').setAttribute('aria-label','Choose '+(char?.name||'character')+' portrait');if(state.portrait){img.src=state.portrait;img.hidden=false;ph.hidden=true;remove.classList.remove('hidden')}
+ else{img.removeAttribute('src');img.hidden=true;ph.hidden=false;remove.classList.add('hidden')}
+}
+function setPortrait(event){
+ const file=event.target.files&&event.target.files[0];if(!file)return;
+ if(!file.type.startsWith('image/')){alert('Choose an image file.');return}
+ const reader=new FileReader();reader.onload=()=>{
+  const picture=new Image();picture.onload=()=>{
+   const side=420,canvas=document.createElement('canvas');canvas.width=canvas.height=side;
+   const ctx=canvas.getContext('2d'),crop=Math.min(picture.width,picture.height);
+   ctx.drawImage(picture,(picture.width-crop)/2,(picture.height-crop)/2,crop,crop,0,0,side,side);
+   const previous=state.portrait;state.portrait=canvas.toDataURL('image/jpeg',.76);
+   if(!save()){state.portrait=previous;renderPortrait();return}renderPortrait();
+  };picture.onerror=()=>alert('This image could not be opened.');picture.src=reader.result;
+ };reader.onerror=()=>alert('Could not read the selected file.');reader.readAsDataURL(file);event.target.value='';
+}
+function removePortrait(){if(!confirm('Remove the character portrait?'))return;delete state.portrait;save();renderPortrait()}
+renderPortrait();
+
+// V2.8: theme preference is separate from character save data and survives backup imports.
+const THEME_KEY='kiran-companion-theme-v1';
+const THEME_NAMES={forest:'Sylvaeren Forest',amethyst:'Moonlit Amethyst',obsidian:'Obsidian Keep'};
+const THEME_COLORS={forest:'#0c1916',amethyst:'#211b2c',obsidian:'#101115'};
+function setTheme(theme){
+ if(!Object.prototype.hasOwnProperty.call(THEME_NAMES,theme))theme='forest';
+ document.documentElement.dataset.theme=theme;
+ try{localStorage.setItem(THEME_KEY,theme)}catch(e){}
+ document.querySelectorAll('[data-theme-choice]').forEach(button=>{
+  const selected=button.dataset.themeChoice===theme;
+  button.setAttribute('aria-pressed',String(selected));
+  const indicator=button.querySelector('.theme-check');if(indicator)indicator.textContent=selected?'✓ Selected':'';
+ });
+ const status=$('theme-status');if(status)status.textContent=THEME_NAMES[theme]+' selected. Saved on this device.';
+ const meta=document.querySelector('meta[name="theme-color"]');if(meta)meta.setAttribute('content',THEME_COLORS[theme]);
+}
+let initialTheme='forest';try{initialTheme=localStorage.getItem(THEME_KEY)||'forest'}catch(e){}
+setTheme(initialTheme);
+// Offline support: a versioned service worker caches the app shell after an online visit.
+async function checkOfflineStatus(){
+ const el=$('offline-status');if(!el)return;
+ if(!('serviceWorker' in navigator)){el.textContent='Offline app caching is not supported in this browser. Export backups regularly.';return}
+ try{
+  const registration=await navigator.serviceWorker.getRegistration('./');
+  el.textContent=registration?.active?'Offline app copy installed. Test by enabling Airplane Mode and reopening the app. Updates still require internet.':'Offline copy not ready yet. Connect to the internet and reopen the app.';
+ }catch(e){el.textContent='Offline status unavailable. Your saved character data is still stored locally.'}
+}
+if('serviceWorker' in navigator&&location.protocol==='https:'){
+ window.addEventListener('load',async()=>{
+  try{await navigator.serviceWorker.register('./sw.js',{scope:'./'});await navigator.serviceWorker.ready}catch(e){}
+  checkOfflineStatus();
+ });
+}else{checkOfflineStatus()}
+</script></body></html>
