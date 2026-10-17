@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.2.1",
-  "notes": "Staging isolation hotfix: separate storage keys and service-worker cache namespace; no automatic migration."
+  "version": "3.0.0-alpha.2.2",
+  "notes": "Staging foundation: distinguish full-library and single-character imports, add Settings recovery, update creator label; isolated staging storage retained."
 }
