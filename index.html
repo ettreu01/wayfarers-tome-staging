@@ -474,7 +474,7 @@ function rollDeathSave(){
 // Keep previous save key and fields intact for seamless migration from V2.2.
 
 // App releases are published by updating version.json alongside index.html.
-const APP_VERSION='3.0.0-alpha.3.23';
+const APP_VERSION='3.0.0-alpha.3.24';
 let pendingVersion=null, lastUpdateCheck=0, checkingUpdates=false, dismissedVersion=null;
 function versionParts(v){const m=String(v).match(/^(\d+)\.(\d+)\.(\d+)(?:-alpha\.(\d+)\.(\d+))?$/);return m?[Number(m[1]),Number(m[2]),Number(m[3]),Number(m[4]||0),Number(m[5]||0)]:null}
 function isNewerVersion(remote,local){const a=versionParts(remote),b=versionParts(local);if(!a||!b)return false;for(let i=0;i<a.length;i++){if(a[i]!==b[i])return a[i]>b[i]}return false}
@@ -1017,11 +1017,29 @@ function v3eReviewChecklist(){
  ['Two Acolyte languages',!!v3hLanguageValid('acolyteLanguages',2),3],['Additional Human language',!!v3hLanguageValid('humanLanguage',1),3]
  ];
  const count=checks.filter(x=>x[1]).length;
- return '<div class="panel"><h3>Ready for Adventure? '+count+'/'+checks.length+'</h3><p class="creator-note">Complete each requirement below. Select Fix to jump to the relevant step. Your draft is saved as you go.</p>'+checks.map(([name,ok,step])=>'<div class="row" style="padding:5px 0"><span>'+ (ok?'✓ ':'○ ')+esc(name)+'</span>'+(ok?'<span class="tag">Ready</span>':'<button class="secondary" onclick="v3aGo('+step+','+(name==='Character name'?"'v3a-name'":'null')+')">Fix</button>')+'</div>').join('')+(count===checks.length?'<p class="creator-note">✓ All requirements satisfied. You can complete your character.</p>':'<p class="creator-note">Missing '+(checks.length-count)+' requirement(s). Save Draft is still available.</p>')+'</div>';
+ return '<div class="panel"><h3>Ready for Adventure? '+count+'/'+checks.length+'</h3><p class="creator-note">Complete each requirement below. Select Fix to jump to the relevant step. Your draft is saved as you go.</p>'+checks.map(([name,ok,step])=>'<div class="row" style="padding:5px 0"><span>'+ (ok?'✓ ':'○ ')+esc(name)+'</span>'+(ok?'<span class="tag">Ready</span>':'<button class="secondary" onclick="v3aFixReview('+step+','+(name==='Character name'?"'v3a-name'":'null')+')">Fix</button>')+'</div>').join('')+(count===checks.length?'<p class="creator-note">✓ All requirements satisfied. You can complete your character.</p>':'<p class="creator-note">Missing '+(checks.length-count)+' requirement(s). Save Draft is still available.</p>')+'</div>';
 }
 function v3aRender(){if(!v3aCurrent)return;$('v3a-guided').classList.toggle('secondary',v3aModeName!=='guided');$('v3a-manual').classList.toggle('secondary',v3aModeName!=='manual');$('v3a-steps').classList.toggle('hidden',v3aModeName==='manual');$('v3a-navigation').classList.toggle('hidden',v3aModeName==='manual');$('v3a-steps').innerHTML=V3A_STEPS.map((n,i)=>'<button class="'+(i===v3aStep?'':'secondary')+'" onclick="v3aGo('+i+')">'+(i+1)+'. '+n+'</button>').join('');let content='';if(v3aModeName==='manual')content='<p class="creator-note">Manual mode: edit the complete draft directly.</p>'+v3aInput('Character concept','concept')+v3fIdentityFields()+v3aInput('Notes','notes')+v3bAbilityUI()+v3bMechanicsUI();else if(v3aStep===0)content='<h3>The Spark</h3><p class="creator-note">Who might your adventurer become?</p>'+v3aInput('Character concept','concept');else if(v3aStep===1)content='<h3>Your Identity</h3>'+v3fIdentityFields();else if(v3aStep===2)content='<h3>Your Abilities</h3>'+v3bAbilityUI()+v3aInput('Character notes','notes');else if(v3aStep===3)content=v3bMechanicsUI();else content='<h3>Review Your Adventurer</h3><p class="creator-note">Your choices are summarized below. Use Fix for anything missing; no new decisions are required on this screen. Validated completion paths: Ranger level 1 with Human or Wood Elf and Acolyte or Outlander, level 1 Human Fighter Acolyte, plus Rogue levels 1–3 with Human or Wood Elf and Acolyte or Outlander; level 3 Assassin requires DM review.</p>'+['name','species','className','subclass','background','level'].map(k=>'<div class="wt-review-item"><strong>'+esc(({name:'Name',species:'Species',className:'Class',subclass:'Subclass',background:'Background',level:'Level'})[k])+':</strong> '+esc(v3aCurrent.fields[k]||'Not selected')+'</div>').join('')+v3eReviewChecklist();$('v3a-fields').innerHTML=content;const review=v3aModeName==='guided'&&v3aStep===V3A_STEPS.length-1;const next=document.getElementById('v3a-next');if(next)next.classList.toggle('hidden',review);const complete=document.getElementById('v3a-complete');if(complete)complete.classList.toggle('hidden',!review&&v3aModeName!=='manual');$('v3a-status').textContent='Draft autosaves locally. Export a library backup to protect it.'}
 function v3aMode(mode){if(!['guided','manual'].includes(mode))return;v3aModeName=mode;v3aPersist();v3aRender()}
 function v3aGo(step,fieldId){v3aStep=Math.max(0,Math.min(V3A_STEPS.length-1,step));v3aPersist();v3aRender();requestAnimationFrame(()=>{const target=(fieldId&&document.getElementById(fieldId))||document.getElementById('v3a-creator');if(target){target.scrollIntoView({block:fieldId?'center':'start',behavior:'instant'});if(fieldId&&typeof target.focus==='function')target.focus({preventScroll:true});}});}
+function v3aFixReview(step,fieldId){
+ // Navigate first. Safari may scroll the previous review view if focus happens in the same frame.
+ v3aStep=Math.max(0,Math.min(V3A_STEPS.length-1,Number(step)||0));
+ v3aModeName='guided';
+ v3aPersist();
+ v3aRender();
+ const expectedStep=v3aStep;
+ const focusTarget=()=>{
+  if(v3aStep!==expectedStep||v3aModeName!=='guided')return;
+  const target=fieldId?document.getElementById(fieldId):document.getElementById('v3a-fields');
+  if(!target)return;
+  if(fieldId){target.style.outline='2px solid var(--gold, #d4ad62)';target.style.outlineOffset='3px';}
+  target.scrollIntoView({block:fieldId?'center':'start',behavior:'auto'});
+  if(fieldId&&typeof target.focus==='function')target.focus({preventScroll:true});
+ };
+ requestAnimationFrame(()=>requestAnimationFrame(focusTarget));
+ setTimeout(focusTarget,180);
+}
 function v3aBack(){v3aGo(v3aStep-1)}function v3aNext(){v3aGo(v3aStep+1)}
 function v3aClose(){if(v3aCurrent&&!v3aPersist())return;$('v3a-creator').classList.add('hidden');v3aCurrent=null;renderCharacterLibrary()}
 function v3aPublish(){if(!v3aCurrent||!v3aPersist())return;const f=v3aCurrent.fields;if(!f.name.trim()){v3aGo(1);$('v3a-status').textContent='A character name is required to add this draft to the library.';return}const oldDraft=v3aCurrent.libraryCharacterId?characterLibrary.characters.find(c=>c.id===v3aCurrent.libraryCharacterId&&c.creationStatus==='draft'):null;const c={id:oldDraft?.id||'hero-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),name:f.name.trim(),species:f.species,className:f.className,subclass:f.subclass||'',background:f.background,edition:'2014',creationStatus:'draft',creator:{schemaVersion:3,originDraftId:v3aCurrent.id,concept:f.concept,notes:f.notes,customTraits:f.customTraits||'',choices:v3aCurrent.choices,validation:{ready:false,missing:[...(new Set(Object.values(v3aCurrent.choices.standardArray||{})).size===6?'': ['Ability scores']), 'Species bonuses','Proficiencies','Features','Equipment','Final review'].filter(Boolean)}},data:blankCharacterData()};c.data.sheet.level=Number(f.level)||1;

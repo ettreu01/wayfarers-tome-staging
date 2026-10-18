@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.23",
-  "notes": "Alpha 6.0.1: guided option availability, language selection and final language deduplication, review Fix field navigation. No storage migration."
+  "version": "3.0.0-alpha.3.24",
+  "notes": "Alpha 6.0.2: review Fix buttons navigate to the correct guided step before focusing and scrolling to the missing field. No storage migration."
 }
