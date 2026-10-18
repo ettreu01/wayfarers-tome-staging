@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.7",
-  "notes": "V3.0B Alpha 5.1: Rogue completion routing hotfix; explicit Rogue identity validation; no Fighter fallback for level 3 Rogues."
+  "version": "3.0.0-alpha.3.8",
+  "notes": "V3.0B Alpha 5.2: completion review checklist, missing requirement navigation, Rogue/Fighter validation routing."
 }

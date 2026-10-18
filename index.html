@@ -415,7 +415,7 @@ function rollDeathSave(){
 // Keep previous save key and fields intact for seamless migration from V2.2.
 
 // App releases are published by updating version.json alongside index.html.
-const APP_VERSION='3.0.0-alpha.3.7';
+const APP_VERSION='3.0.0-alpha.3.8';
 let pendingVersion=null, lastUpdateCheck=0, checkingUpdates=false, dismissedVersion=null;
 function versionParts(v){return /^\d+\.\d+\.\d+$/.test(v)?v.split('.').map(Number):null}
 function isNewerVersion(remote,local){const a=versionParts(remote),b=versionParts(local);if(!a||!b)return false;for(let i=0;i<3;i++){if(a[i]!==b[i])return a[i]>b[i]}return false}
@@ -670,6 +670,8 @@ function v3bChoice(key,value){
 }
 function v3bChoiceCommitted(key,value){v3bChoice(key,value);v3aRender()}
 function v3bSkillToggle(skill,checked){if(!v3aCurrent||!V3B_FIGHTER_SKILLS.includes(skill))return;let arr=(v3aCurrent.choices.fighterSkills||[]).filter(x=>V3B_FIGHTER_SKILLS.includes(x));arr=checked?[...new Set([...arr,skill])]:arr.filter(x=>x!==skill);if(arr.length>2){alert('Choose exactly two Fighter skills.');v3aRender();return}v3aCurrent.choices.fighterSkills=arr;if(v3aPersist())v3aRender()}
+function v3eRogueIntent(){const f=v3aCurrent?.fields||{};return String(f.className||'').trim().toLowerCase()==='rogue'}
+function v3eFighterIntent(){const f=v3aCurrent?.fields||{};return String(f.className||'').trim().toLowerCase()==='fighter'}
 function v3dIsRogue(){const f=v3aCurrent?.fields||{};return Number(f.level)===3&&String(f.className||'').trim().toLowerCase()==='rogue'}
 function v3dRogueEligibility(){const f=v3aCurrent.fields,c=v3aCurrent.choices||{},a=c.standardArray||{},vals=V3B_ABILITIES.map(k=>a[k]),missing=[];
  if(Number(f.level)!==3)missing.push('Level 3 Rogue required');
@@ -751,7 +753,7 @@ function v3bMechanicsUI(){if(String(v3aCurrent.fields.className||'').trim().toLo
  return html+'<p class="creator-note">'+(ready.length?'Still needed: '+ready.map(esc).join('; '):'✓ Ready for final review and completion.')+'</p>';
 }
 function v3dCompleteRogue(){
- const d=v3aCurrent,f=d.fields,ch=d.choices,missing=v3dRogueEligibility();if(missing.length){v3aGo(3);$('v3a-status').textContent='Cannot complete: '+missing.join('; ');return}
+ const d=v3aCurrent,f=d.fields,ch=d.choices,missing=v3dRogueEligibility();if(missing.length){v3aGo(4);$('v3a-status').textContent='Almost ready: '+missing.join('; ');return}
  const old=d.libraryCharacterId?characterLibrary.characters.find(x=>x.id===d.libraryCharacterId&&x.creationStatus==='draft'):null;
  const scores=Object.fromEntries(V3B_ABILITIES.map(k=>[k,ch.standardArray[k]+(k==='DEX'?2:k==='WIS'?1:0)]));const mod=k=>Math.floor((scores[k]-10)/2);
  const data=blankCharacterData();data.sheet.abilities=scores;data.sheet.level=3;data.sheet.xp=900;data.sheet.speed=35;
@@ -768,7 +770,7 @@ function v3dCompleteRogue(){
  characterLibrary=next;const remaining=v3aRead().filter(x=>x.id!==d.id);if(!v3aWrite(remaining)){$('v3a-status').textContent='Character completed, but draft cleanup failed. Export a backup.';return}
  v3aCurrent=null;$('v3a-creator').classList.add('hidden');renderCharacterLibrary();alert('✧ Your Adventure Begins! ✧\n\n'+character.name+' is ready. Opening your character sheet.');openCharacter(character.id);
 }
-function v3bComplete(){if(!v3aCurrent||!v3aPersist())return;if(v3dIsRogue())return v3dCompleteRogue();const missing=v3bEligibility();if(missing.length){v3aGo(3);$('v3a-status').textContent='Cannot complete yet: '+missing.join('; ');return}
+function v3bComplete(){if(!v3aCurrent||!v3aPersist())return;if(v3eRogueIntent())return v3dCompleteRogue();if(!v3eFighterIntent()){v3aGo(4);$('v3a-status').textContent='This combination is not yet supported for automatic completion. Save it as a draft; do not change its identity to pass validation.';return}const missing=v3bEligibility();if(missing.length){v3aGo(4);$('v3a-status').textContent='Almost ready: '+missing.join('; ');return}
  const d=v3aCurrent,f=d.fields,ch=d.choices,old=d.libraryCharacterId?characterLibrary.characters.find(x=>x.id===d.libraryCharacterId&&x.creationStatus==='draft'):null;
  const scores=Object.fromEntries(V3B_ABILITIES.map(k=>[k,ch.standardArray[k]+1]));const mod=k=>Math.floor((scores[k]-10)/2);
  const data=blankCharacterData();data.sheet.abilities=scores;data.sheet.level=1;data.sheet.xp=0;data.sheet.speed=30;data.maxhp=Math.max(1,10+mod('CON'));data.hp=data.maxhp;data.hitdice=1;
@@ -782,7 +784,34 @@ function v3bComplete(){if(!v3aCurrent||!v3aPersist())return;if(v3dIsRogue())retu
  characterLibrary=next;const remaining=v3aRead().filter(x=>x.id!==d.id);if(!v3aWrite(remaining)){$('v3a-status').textContent='Character completed, but creator draft cleanup failed. Export a backup.';return}
  v3aCurrent=null;$('v3a-creator').classList.add('hidden');renderCharacterLibrary();alert('✧ Your Adventure Begins! ✧\n\n'+character.name+' is ready. Opening your character sheet.');openCharacter(character.id);
 }
-function v3aRender(){if(!v3aCurrent)return;$('v3a-guided').classList.toggle('secondary',v3aModeName!=='guided');$('v3a-manual').classList.toggle('secondary',v3aModeName!=='manual');$('v3a-steps').innerHTML=V3A_STEPS.map((n,i)=>'<button class="'+(i===v3aStep?'':'secondary')+'" onclick="v3aGo('+i+')">'+(i+1)+'. '+n+'</button>').join('');let content='';if(v3aModeName==='manual')content='<p class="creator-note">Manual mode: edit the complete draft directly.</p>'+v3aInput('Character concept','concept')+v3aInput('Name','name')+v3aInput('Species','species')+v3aInput('Class','className')+v3aInput('Background','background')+v3aInput('Starting level (1–20)','level','number')+v3aInput('Subclass / Oath','subclass')+v3aInput('Custom traits / DM notes','customTraits')+v3aInput('Notes','notes')+v3bAbilityUI()+v3bMechanicsUI();else if(v3aStep===0)content='<h3>The Spark</h3><p class="creator-note">Who might your adventurer become?</p>'+v3aInput('Character concept','concept');else if(v3aStep===1)content='<h3>Your Identity</h3>'+v3aInput('Name','name')+v3aInput('Species','species')+v3aInput('Class','className')+v3aInput('Background','background')+v3aInput('Starting level','level','number')+v3aInput('Subclass / Oath','subclass')+v3aInput('Custom traits / DM notes','customTraits');else if(v3aStep===2)content='<h3>Your Abilities</h3>'+v3bAbilityUI()+v3aInput('Character notes','notes');else if(v3aStep===3)content=v3bMechanicsUI();else content='<h3>Review Your Draft</h3><p class="creator-note">Review your choices. Validated completion paths: level 1 Human Fighter Acolyte, and level 3 Wood Elf Rogue Assassin Outlander with DM-reviewed custom subclass.</p>'+V3A_FIELDS.map(k=>'<p><strong>'+esc(k)+':</strong> '+esc(v3aCurrent.fields[k]||'Not selected')+'</p>').join('')+v3bAbilityUI()+v3bMechanicsUI();$('v3a-fields').innerHTML=content;$('v3a-status').textContent='Draft autosaves locally. Export a library backup to protect it.'}
+function v3eReviewChecklist(){
+ const f=v3aCurrent.fields||{},c=v3aCurrent.choices||{},rogue=v3eRogueIntent(),fighter=v3eFighterIntent();
+ if(!rogue&&!fighter)return '<div class="panel"><h3>Completion checklist</h3><p class="creator-note">This class is not yet supported for automatic completion. You can save your character as a draft.</p></div>';
+ const checks=rogue?[
+ ['Character name',!!String(f.name||'').trim(),1],
+ ['Level 3',Number(f.level)===3,1],
+ ['Wood Elf species',String(f.species||'').trim().toLowerCase()==='wood elf',1],
+ ['Rogue class',String(f.className||'').trim().toLowerCase()==='rogue',1],
+ ['Outlander background',String(f.background||'').trim().toLowerCase()==='outlander',1],
+ ['Assassin subclass',String(f.subclass||'').trim().toLowerCase()==='assassin',1],
+ ['Six unique standard array scores',V3B_ABILITIES.every(k=>V3B_ARRAY.includes(c.standardArray?.[k]))&&new Set(V3B_ABILITIES.map(k=>c.standardArray[k])).size===6,2],
+ ['Four Rogue skills',Array.isArray(c.rogueSkills)&&c.rogueSkills.length===4&&new Set(c.rogueSkills).size===4&&c.rogueSkills.every(x=>V3B_ROGUE_SKILLS.includes(x)),3],
+ ['Two eligible Expertise choices',Array.isArray(c.rogueExpertise)&&c.rogueExpertise.length===2&&new Set(c.rogueExpertise).size===2&&c.rogueExpertise.every(x=>x==='Thieves Tools'||(c.rogueSkills||[]).includes(x)),3],
+ ['Armor choice',['leather','studded'].includes(c.rogueArmor),3],
+ ['HP method and rolls',c.rogueHpMethod==='average'||(c.rogueHpMethod==='rolled'&&[c.rogueHpRolls1,c.rogueHpRolls2].every(n=>Number.isInteger(Number(n))&&Number(n)>=1&&Number(n)<=8)),3],
+ ['Outlander language',!!String(c.rogueOutlanderLanguage||'').trim(),3],
+ ['DM review of custom Assassin features',c.assassinDmConfirmed==='yes',3]
+ ]:[
+ ['Character name',!!String(f.name||'').trim(),1],['Level 1',Number(f.level)===1,1],['Human species',String(f.species||'').trim().toLowerCase()==='human',1],['Fighter class',String(f.className||'').trim().toLowerCase()==='fighter',1],['Acolyte background',String(f.background||'').trim().toLowerCase()==='acolyte',1],
+ ['Six unique standard array scores',V3B_ABILITIES.every(k=>V3B_ARRAY.includes(c.standardArray?.[k]))&&new Set(V3B_ABILITIES.map(k=>c.standardArray[k])).size===6,2],
+ ['Fighting style',V3B_FIGHTER_STYLES.includes(c.fightingStyle),3],['Starting equipment',['chain','leather'].includes(c.armorKit),3],
+ ['Two Fighter skills',Array.isArray(c.fighterSkills)&&c.fighterSkills.length===2&&new Set(c.fighterSkills).size===2&&c.fighterSkills.every(x=>V3B_FIGHTER_SKILLS.includes(x)),3],
+ ['Two Acolyte languages',!!String(c.acolyteLanguages||'').trim(),3],['Additional Human language',!!String(c.humanLanguage||'').trim(),3]
+ ];
+ const count=checks.filter(x=>x[1]).length;
+ return '<div class="panel"><h3>Ready for Adventure? '+count+'/'+checks.length+'</h3><p class="creator-note">Complete each requirement below. Select Fix to jump to the relevant step. Your draft is saved as you go.</p>'+checks.map(([name,ok,step])=>'<div class="row" style="padding:5px 0"><span>'+ (ok?'✓ ':'○ ')+esc(name)+'</span>'+(ok?'<span class="tag">Ready</span>':'<button class="secondary" onclick="v3aGo('+step+')">Fix</button>')+'</div>').join('')+(count===checks.length?'<p class="creator-note">✓ All requirements satisfied. You can complete your character.</p>':'<p class="creator-note">Missing '+(checks.length-count)+' requirement(s). Save Draft is still available.</p>')+'</div>';
+}
+function v3aRender(){if(!v3aCurrent)return;$('v3a-guided').classList.toggle('secondary',v3aModeName!=='guided');$('v3a-manual').classList.toggle('secondary',v3aModeName!=='manual');$('v3a-steps').innerHTML=V3A_STEPS.map((n,i)=>'<button class="'+(i===v3aStep?'':'secondary')+'" onclick="v3aGo('+i+')">'+(i+1)+'. '+n+'</button>').join('');let content='';if(v3aModeName==='manual')content='<p class="creator-note">Manual mode: edit the complete draft directly.</p>'+v3aInput('Character concept','concept')+v3aInput('Name','name')+v3aInput('Species','species')+v3aInput('Class','className')+v3aInput('Background','background')+v3aInput('Starting level (1–20)','level','number')+v3aInput('Subclass / Oath','subclass')+v3aInput('Custom traits / DM notes','customTraits')+v3aInput('Notes','notes')+v3bAbilityUI()+v3bMechanicsUI();else if(v3aStep===0)content='<h3>The Spark</h3><p class="creator-note">Who might your adventurer become?</p>'+v3aInput('Character concept','concept');else if(v3aStep===1)content='<h3>Your Identity</h3>'+v3aInput('Name','name')+v3aInput('Species','species')+v3aInput('Class','className')+v3aInput('Background','background')+v3aInput('Starting level','level','number')+v3aInput('Subclass / Oath','subclass')+v3aInput('Custom traits / DM notes','customTraits');else if(v3aStep===2)content='<h3>Your Abilities</h3>'+v3bAbilityUI()+v3aInput('Character notes','notes');else if(v3aStep===3)content=v3bMechanicsUI();else content='<h3>Review Your Draft</h3><p class="creator-note">Review your choices. Validated completion paths: level 1 Human Fighter Acolyte, and level 3 Wood Elf Rogue Assassin Outlander with DM-reviewed custom subclass.</p>'+V3A_FIELDS.map(k=>'<p><strong>'+esc(k)+':</strong> '+esc(v3aCurrent.fields[k]||'Not selected')+'</p>').join('')+v3eReviewChecklist()+v3bAbilityUI()+v3bMechanicsUI();$('v3a-fields').innerHTML=content;$('v3a-status').textContent='Draft autosaves locally. Export a library backup to protect it.'}
 function v3aMode(mode){if(!['guided','manual'].includes(mode))return;v3aModeName=mode;v3aPersist();v3aRender()}
 function v3aGo(step){v3aStep=Math.max(0,Math.min(V3A_STEPS.length-1,step));v3aPersist();v3aRender()}
 function v3aBack(){v3aGo(v3aStep-1)}function v3aNext(){v3aGo(v3aStep+1)}
