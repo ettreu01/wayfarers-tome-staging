@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.29",
-  "notes": "Alpha 6.4.0: class-aware Guide and Stats panels for Rogue and Ranger; no character storage migration."
+  "version": "3.0.0-alpha.3.30",
+  "notes": "Alpha 6.4.2: remove duplicate Story backstory display, generalize Journal prompts, simplify repeated header, update footer. No storage migration."
 }
