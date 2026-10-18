@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.22",
-  "notes": "Alpha 6.0: level 1 Ranger foundation (Human/Wood Elf, Acolyte/Outlander); simpler character completion; no storage migration."
+  "version": "3.0.0-alpha.3.23",
+  "notes": "Alpha 6.0.1: guided option availability, language selection and final language deduplication, review Fix field navigation. No storage migration."
 }
