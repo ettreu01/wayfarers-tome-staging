@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.39",
-  "notes": "Alpha 6.6.2: Journal Edit scrolls to the editor heading without focusing the first text field or opening the keyboard."
+  "version": "3.0.0-alpha.3.40",
+  "notes": "Alpha 6.7.0: Tap-to-open item descriptions for common weapons, armor and adventuring gear. Existing inventory records remain unchanged."
 }
