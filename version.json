@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.14",
-  "notes": "V3.0B Alpha 5.6.1: Attack Planner 2014 class weapon proficiency defaults, Assassin controls hidden when ineligible, stale Kiran-only messages removed, language suggestions, XP level-up notice. No data migration."
+  "version": "3.0.0-alpha.3.15",
+  "notes": "Alpha 5.6.2: correct alpha version comparisons and embedded version, clearer update errors, hidden Assassin controls, visible XP level-up notice, consistent Settings actions. Character storage unchanged."
 }
