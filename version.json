@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.15",
-  "notes": "Alpha 5.6.2: correct alpha version comparisons and embedded version, clearer update errors, hidden Assassin controls, visible XP level-up notice, consistent Settings actions. Character storage unchanged."
+  "version": "3.0.0-alpha.3.16",
+  "notes": "Alpha 5.7: shared 2014 class, species, background, proficiency, Hit Dice, Sneak Attack and weapon proficiency rules foundation. Existing completion scope and storage unchanged."
 }
