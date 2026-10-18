@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.28",
-  "notes": "Alpha 6.3: level 3 Ranger, Hunter and Beast Master starter companion, level 3 HP and 3 first-level slots. No storage migration."
+  "version": "3.0.0-alpha.3.29",
+  "notes": "Alpha 6.4.0: class-aware Guide and Stats panels for Rogue and Ranger; no character storage migration."
 }
