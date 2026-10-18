@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.35",
-  "notes": "Alpha 6.5: optional Physical Dice Mode with combat reference and collapsible Combat History. UI preferences are separate from character storage."
+  "version": "3.0.0-alpha.3.36",
+  "notes": "Alpha 6.5.1: compact Physical Dice toggle beside Combat heading; full explanatory preference remains in Settings."
 }
