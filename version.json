@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.4",
-  "notes": "V3.0B Alpha 3.1: do not create blank drafts on opening or navigating the creator; existing and template drafts preserved."
+  "version": "3.0.0-alpha.3.5",
+  "notes": "V3.0B Alpha 4: level 3 Rogue skill and Expertise draft selections, class feature reference; no unvalidated sheet completion."
 }
