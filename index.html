@@ -415,7 +415,7 @@ function rollDeathSave(){
 // Keep previous save key and fields intact for seamless migration from V2.2.
 
 // App releases are published by updating version.json alongside index.html.
-const APP_VERSION='3.0.0-alpha.3.6';
+const APP_VERSION='3.0.0-alpha.3.7';
 let pendingVersion=null, lastUpdateCheck=0, checkingUpdates=false, dismissedVersion=null;
 function versionParts(v){return /^\d+\.\d+\.\d+$/.test(v)?v.split('.').map(Number):null}
 function isNewerVersion(remote,local){const a=versionParts(remote),b=versionParts(local);if(!a||!b)return false;for(let i=0;i<3;i++){if(a[i]!==b[i])return a[i]>b[i]}return false}
@@ -670,8 +670,13 @@ function v3bChoice(key,value){
 }
 function v3bChoiceCommitted(key,value){v3bChoice(key,value);v3aRender()}
 function v3bSkillToggle(skill,checked){if(!v3aCurrent||!V3B_FIGHTER_SKILLS.includes(skill))return;let arr=(v3aCurrent.choices.fighterSkills||[]).filter(x=>V3B_FIGHTER_SKILLS.includes(x));arr=checked?[...new Set([...arr,skill])]:arr.filter(x=>x!==skill);if(arr.length>2){alert('Choose exactly two Fighter skills.');v3aRender();return}v3aCurrent.choices.fighterSkills=arr;if(v3aPersist())v3aRender()}
-function v3dIsRogue(){const f=v3aCurrent?.fields||{};return Number(f.level)===3&&String(f.species||'').trim().toLowerCase()==='wood elf'&&String(f.className||'').trim().toLowerCase()==='rogue'&&String(f.background||'').trim().toLowerCase()==='outlander'&&String(f.subclass||'').trim().toLowerCase()==='assassin'}
+function v3dIsRogue(){const f=v3aCurrent?.fields||{};return Number(f.level)===3&&String(f.className||'').trim().toLowerCase()==='rogue'}
 function v3dRogueEligibility(){const f=v3aCurrent.fields,c=v3aCurrent.choices||{},a=c.standardArray||{},vals=V3B_ABILITIES.map(k=>a[k]),missing=[];
+ if(Number(f.level)!==3)missing.push('Level 3 Rogue required');
+ if(String(f.species||'').trim().toLowerCase()!=='wood elf')missing.push('Wood Elf species required (check Identity)');
+ if(String(f.className||'').trim().toLowerCase()!=='rogue')missing.push('Rogue class required (check Identity)');
+ if(String(f.background||'').trim().toLowerCase()!=='outlander')missing.push('Outlander background required (check Identity)');
+ if(String(f.subclass||'').trim().toLowerCase()!=='assassin')missing.push('Assassin subclass required (check Identity)');
  if(!String(f.name||'').trim())missing.push('Character name');
  if(vals.some(n=>!V3B_ARRAY.includes(n))||new Set(vals).size!==6)missing.push('Complete unique standard array');
  const skills=c.rogueSkills||[],expertise=c.rogueExpertise||[];

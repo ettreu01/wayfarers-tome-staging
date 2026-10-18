@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.6",
-  "notes": "V3.0B Alpha 5: level 3 Wood Elf Rogue Assassin Outlander completion with DM-reviewed subclass; draft protection for other paths."
+  "version": "3.0.0-alpha.3.7",
+  "notes": "V3.0B Alpha 5.1: Rogue completion routing hotfix; explicit Rogue identity validation; no Fighter fallback for level 3 Rogues."
 }
