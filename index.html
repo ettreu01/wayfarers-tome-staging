@@ -177,6 +177,8 @@ main.wrap>header{position:relative;padding:32px 54px 14px}
 .wt-physical-inline input{width:20px;height:20px;min-width:20px;margin:0;accent-color:var(--t-accent);cursor:pointer}
 @media(max-width:370px){.wt-combat-heading{gap:8px}.wt-physical-inline{padding:7px 8px;font-size:12px}}
 
+/* Alpha 6.6.2: Journal edit scrolls to editor heading without focusing input */
+#journal-form-title{scroll-margin-top:24px}
 /* Alpha 6.6.1: compact journal people portraits */
 .person-photo-row{display:flex;gap:12px;align-items:center;margin:12px 0;flex-wrap:wrap}
 .person-photo-preview,.person-photo-card{width:76px;height:76px;object-fit:cover;border:1px solid var(--t-line);border-radius:12px;background:var(--t-panel3)}
@@ -443,7 +445,7 @@ function editEntry(i){
  editEntryIndex=i;$('entrytitle').value=e.title||'';$('entrybody').value=e.body||'';
  if(currentJournalTab==='people'){$('personrelation').value=journalPersonRole(e);personPortraitDraft=validPersonPortrait(e.portrait)?e.portrait:null;renderPersonPortraitDraft();}
  $('entrysave').textContent='Update Entry';$('entrycancel').classList.remove('hidden');
- $('entrytitle').scrollIntoView({behavior:'smooth',block:'center'});$('entrytitle').focus()
+ requestAnimationFrame(()=>{const editor=$('journal-form-title');if(editor)editor.scrollIntoView({behavior:'smooth',block:'start'});});
 }
 function removeEntry(i){if(!askImportant('Delete this journal entry?'))return;state.entries.splice(i,1);save();cancelEntryEdit();renderEntries()}
 function renderEntries(){
@@ -616,7 +618,7 @@ function rollDeathSave(){
 // Keep previous save key and fields intact for seamless migration from V2.2.
 
 // App releases are published by updating version.json alongside index.html.
-const APP_VERSION='3.0.0-alpha.3.38';
+const APP_VERSION='3.0.0-alpha.3.39';
 let pendingVersion=null, lastUpdateCheck=0, checkingUpdates=false, dismissedVersion=null;
 function versionParts(v){const m=String(v).match(/^(\d+)\.(\d+)\.(\d+)(?:-alpha\.(\d+)\.(\d+))?$/);return m?[Number(m[1]),Number(m[2]),Number(m[3]),Number(m[4]||0),Number(m[5]||0)]:null}
 function isNewerVersion(remote,local){const a=versionParts(remote),b=versionParts(local);if(!a||!b)return false;for(let i=0;i<a.length;i++){if(a[i]!==b[i])return a[i]>b[i]}return false}

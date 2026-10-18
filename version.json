@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.38",
-  "notes": "Alpha 6.6.1: resize, save, replace and remove People portraits; stored per character and included in JSON backups."
+  "version": "3.0.0-alpha.3.39",
+  "notes": "Alpha 6.6.2: Journal Edit scrolls to the editor heading without focusing the first text field or opening the keyboard."
 }
