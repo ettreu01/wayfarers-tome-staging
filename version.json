@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.30",
-  "notes": "Alpha 6.4.2: remove duplicate Story backstory display, generalize Journal prompts, simplify repeated header, update footer. No storage migration."
+  "version": "3.0.0-alpha.3.31",
+  "notes": "Alpha 6.4.3: open character at name and tabs at their headings; Adventurers/Settings accessible by scrolling upward. No storage migration."
 }
