@@ -156,8 +156,8 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
 .creator-draft-card button{margin:5px 5px 0 0}
 @media(max-width:440px){.creator-shell{padding:13px}.creator-steps button{min-width:78px}}
 </style></head><body><section id="character-library" class="library-screen hidden"><div class="library-inner"><div class="library-studio">♧ SYLVAEREN STUDIOS</div><div class="library-head"><div><div class="eyebrow">THE ADVENTURER'S LIBRARY</div><h1>Wayfarer's Tome</h1><p>Every adventure begins somewhere.</p></div><span class="tome-symbol" aria-hidden="true">✧</span></div><h2>Your Adventurers</h2><div id="character-cards"></div><button class="create-card" onclick="$('new-character-form').classList.toggle('hidden')"><span aria-hidden="true">⊕</span><strong>Create New Adventurer</strong><small>Begin another story</small></button><div class="creator-shell hidden" id="v3a-creator" aria-label="Unified character creator">
-<div class="eyebrow">CAMPAIGN ROSTER · V3.0B ALPHA 3</div><h2>Create Your Adventurer</h2>
-<p class="creator-note">An autosaved draft. Guided and Manual modes edit the same information. 2014 D&D 5e · Begin with identity and assign the standard array. Supported level 1 mechanics can be completed; other builds remain drafts.</p>
+<div class="eyebrow">LEVEL 3 ROGUE · V3.0B ALPHA 5</div><h2>Create Your Adventurer</h2>
+<p class="creator-note">An autosaved draft. Guided and Manual modes edit the same information. 2014 D&D 5e · Begin with identity and assign the standard array. Level 1 Fighter and level 3 Wood Elf Rogue (Outlander) completion paths are supported. Other builds remain drafts.</p>
 <div class="actions"><button type="button" id="v3a-guided" onclick="v3aMode('guided')">Guided Mode</button><button type="button" id="v3a-manual" class="secondary" onclick="v3aMode('manual')">Manual Mode</button></div>
 <div id="v3a-steps" class="creator-steps"></div><div id="v3a-fields"></div>
 <div class="creator-actions"><button class="secondary" onclick="v3aBack()">Back</button><button class="secondary" onclick="v3aNext()">Continue</button></div>
@@ -415,7 +415,7 @@ function rollDeathSave(){
 // Keep previous save key and fields intact for seamless migration from V2.2.
 
 // App releases are published by updating version.json alongside index.html.
-const APP_VERSION='3.0.0-alpha.3.5';
+const APP_VERSION='3.0.0-alpha.3.6';
 let pendingVersion=null, lastUpdateCheck=0, checkingUpdates=false, dismissedVersion=null;
 function versionParts(v){return /^\d+\.\d+\.\d+$/.test(v)?v.split('.').map(Number):null}
 function isNewerVersion(remote,local){const a=versionParts(remote),b=versionParts(local);if(!a||!b)return false;for(let i=0;i<3;i++){if(a[i]!==b[i])return a[i]>b[i]}return false}
@@ -670,7 +670,21 @@ function v3bChoice(key,value){
 }
 function v3bChoiceCommitted(key,value){v3bChoice(key,value);v3aRender()}
 function v3bSkillToggle(skill,checked){if(!v3aCurrent||!V3B_FIGHTER_SKILLS.includes(skill))return;let arr=(v3aCurrent.choices.fighterSkills||[]).filter(x=>V3B_FIGHTER_SKILLS.includes(x));arr=checked?[...new Set([...arr,skill])]:arr.filter(x=>x!==skill);if(arr.length>2){alert('Choose exactly two Fighter skills.');v3aRender();return}v3aCurrent.choices.fighterSkills=arr;if(v3aPersist())v3aRender()}
-function v3bEligibility(){const d=v3aCurrent,f=d.fields,ch=d.choices||{},a=ch.standardArray||{},selected=V3B_ABILITIES.map(k=>a[k]);const missing=[];
+function v3dIsRogue(){const f=v3aCurrent?.fields||{};return Number(f.level)===3&&String(f.species||'').trim().toLowerCase()==='wood elf'&&String(f.className||'').trim().toLowerCase()==='rogue'&&String(f.background||'').trim().toLowerCase()==='outlander'&&String(f.subclass||'').trim().toLowerCase()==='assassin'}
+function v3dRogueEligibility(){const f=v3aCurrent.fields,c=v3aCurrent.choices||{},a=c.standardArray||{},vals=V3B_ABILITIES.map(k=>a[k]),missing=[];
+ if(!String(f.name||'').trim())missing.push('Character name');
+ if(vals.some(n=>!V3B_ARRAY.includes(n))||new Set(vals).size!==6)missing.push('Complete unique standard array');
+ const skills=c.rogueSkills||[],expertise=c.rogueExpertise||[];
+ if(skills.length!==4||new Set(skills).size!==4||skills.some(x=>!V3B_ROGUE_SKILLS.includes(x)))missing.push('Exactly four Rogue skills');
+ if(expertise.length!==2||new Set(expertise).size!==2||expertise.some(x=>x!=='Thieves Tools'&&!skills.includes(x)))missing.push('Two valid Expertise choices');
+ if(!['leather','studded'].includes(c.rogueArmor))missing.push('Armor choice');
+ if(!['average','rolled'].includes(c.rogueHpMethod))missing.push('Hit point method');
+ if(c.rogueHpMethod==='rolled'&&(!Number.isInteger(Number(c.rogueHpRolls1))||Number(c.rogueHpRolls1)<1||Number(c.rogueHpRolls1)>8||!Number.isInteger(Number(c.rogueHpRolls2))||Number(c.rogueHpRolls2)<1||Number(c.rogueHpRolls2)>8))missing.push('Two valid d8 HP rolls (1–8)');
+ if(!String(c.rogueOutlanderLanguage||'').trim())missing.push('Outlander additional language');
+ if(c.assassinDmConfirmed!=='yes')missing.push('Confirm DM reviewed Assassin custom subclass features');
+ return missing;
+}
+function v3bEligibility(){if(v3dIsRogue())return v3dRogueEligibility();const d=v3aCurrent,f=d.fields,ch=d.choices||{},a=ch.standardArray||{},selected=V3B_ABILITIES.map(k=>a[k]);const missing=[];
  if(!f.name.trim())missing.push('Character name');
  if(Number(f.level)!==1)missing.push('Level 1 required for this first completion path');
  if(f.species.trim().toLowerCase()!=='human')missing.push('2014 standard Human species (other species remain drafts)');
@@ -702,7 +716,7 @@ function v3cRogueUI(){
  const skills=(c.rogueSkills||[]).filter(x=>V3B_ROGUE_SKILLS.includes(x));
  const eligible=[...new Set([...skills,'Thieves Tools'])];
  const expertise=(c.rogueExpertise||[]).filter(x=>eligible.includes(x));
- let html='<h3>Level 3 Rogue · 2014 Rules</h3><p class="creator-note">Planning tools for your level 3 Rogue. Choices autosave as a draft. They do not yet create a validated character sheet. Class skills below are class selections only; background and species skills are handled separately in a future release.</p>';
+ let html='<h3>Level 3 Rogue · 2014 Rules</h3><p class="creator-note">Planning tools for your level 3 Rogue. Choices autosave as a draft. The supported Wood Elf Rogue Assassin Outlander path can be completed after required choices and DM review. Class skills are selected here; Outlander background and Wood Elf traits are applied in the supported completion path.</p>';
  html+='<h4>Rogue skill choices · '+skills.length+'/4</h4>';
  for(const x of V3B_ROGUE_SKILLS)html+='<label style="display:flex;align-items:center;gap:8px"><input style="width:auto" type="checkbox" '+(skills.includes(x)?'checked':'')+' onchange="v3cRogueToggle(\'rogueSkills\',\''+x+'\',this.checked,4)">'+esc(x)+'</label>';
  html+='<h4>Expertise · '+expertise.length+'/2</h4><p class="creator-note">Choose two of your Rogue skill proficiencies, or replace one choice with thieves’ tools proficiency.</p>';
@@ -712,8 +726,15 @@ function v3cRogueUI(){
  if(subclass==='assassin')html+='<p><strong>Assassin (custom/non-SRD option):</strong> Assassinate and bonus proficiencies require confirmation with your DM and sourcebook. No automatic bonuses are applied.</p>';
  else if(subclass==='arcane trickster')html+='<p><strong>Arcane Trickster:</strong> Level 3 spellcasting and Mage Hand Legerdemain require spell selections and validation, not yet implemented.</p>';
  else html+='<p class="creator-note">Choose your Roguish Archetype in Identity. Custom archetypes may be recorded there.</p>';
- if(String(f.species||'').trim().toLowerCase()==='wood elf')html+='<p class="creator-note"><strong>Wood Elf:</strong> Species bonuses and traits are not applied yet; they will be handled during final validation.</p>';
- html+='<p class="creator-note">Draft progress: '+skills.length+'/4 Rogue skills, '+expertise.length+'/2 Expertise selections. Full completion is intentionally unavailable.</p>';
+ if(String(f.species||'').trim().toLowerCase()==='wood elf')html+='<p class="creator-note"><strong>Wood Elf:</strong> Species bonuses (+2 DEX, +1 WIS) and 35 ft speed apply during supported completion.</p>';
+ html+='<h4>Level 3 Rogue sheet choices</h4><p class="creator-note">Wood Elf: +2 Dexterity, +1 Wisdom, speed 35 ft. Rogue saves: Dexterity and Intelligence. Outlander adds Athletics and Survival, plus one language. Duplicate skill proficiencies need DM resolution.</p>';
+ html+='<label>Armor</label><select onchange="v3bChoiceCommitted(\'rogueArmor\',this.value)"><option value="">Choose armor</option><option value="leather" '+(c.rogueArmor==='leather'?'selected':'')+'>Leather (AC 11 + DEX)</option><option value="studded" '+(c.rogueArmor==='studded'?'selected':'')+'>Studded leather (AC 12 + DEX; acquired gear)</option></select>';
+ html+='<label>Level 2 and 3 HP method</label><select onchange="v3bChoiceCommitted(\'rogueHpMethod\',this.value)"><option value="">Choose method</option><option value="average" '+(c.rogueHpMethod==='average'?'selected':'')+'>Fixed average (5 each level)</option><option value="rolled" '+(c.rogueHpMethod==='rolled'?'selected':'')+'>Enter actual d8 rolls</option></select>';
+ if(c.rogueHpMethod==='rolled')for(const [k,label] of [['rogueHpRolls1','Level 2 d8 result'],['rogueHpRolls2','Level 3 d8 result']])html+='<label>'+label+'</label><input type="number" min="1" max="8" value="'+esc(c[k]||'')+'" oninput="v3bChoice(\''+k+'\',this.value)">';
+ html+='<label>Outlander additional language</label><input value="'+esc(c.rogueOutlanderLanguage||'')+'" oninput="v3bChoice(\'rogueOutlanderLanguage\',this.value)">';
+ html+='<label>Assassin subclass verification</label><select onchange="v3bChoiceCommitted(\'assassinDmConfirmed\',this.value)"><option value="">Select</option><option value="yes" '+(c.assassinDmConfirmed==='yes'?'selected':'')+'>DM has reviewed Assassin custom subclass features</option></select>';
+ html+='<p class="creator-note">This alpha uses a simple shortsword, shortbow, thieves’ tools and leather armor starter set; replace equipment on the sheet to match your table. Assassin features are recorded as DM-reviewed custom content, not independently validated SRD rules.</p>';
+ html+='<p class="creator-note">'+(v3dIsRogue()?(v3dRogueEligibility().length?'Completion needs: '+v3dRogueEligibility().map(esc).join('; '):'✓ Ready for completion'):'Other Rogue combinations remain drafts pending validation.')+'</p>';
  return html;
 }
 function v3bMechanicsUI(){if(String(v3aCurrent.fields.className||'').trim().toLowerCase()==='rogue'&&Number(v3aCurrent.fields.level)===3)return v3cRogueUI();const c=v3aCurrent.choices||{},ready=v3bEligibility();let html='<h3>2014 SRD · Level 1 Mechanics</h3><p class="creator-note">Supported completion: standard Human + Fighter + Acolyte, level 1. Other combinations can be saved as drafts. Custom content will need explicit manual validation in a later release.</p>';
@@ -724,7 +745,25 @@ function v3bMechanicsUI(){if(String(v3aCurrent.fields.className||'').trim().toLo
  html+='<p class="creator-note">Acolyte supplies Insight and Religion, two languages, holy symbol, prayer book/wheel, incense, vestments, common clothes, and 15 gp. Fighter supplies Strength and Constitution saving throw proficiency, Second Wind, and Fighting Style.</p>';
  return html+'<p class="creator-note">'+(ready.length?'Still needed: '+ready.map(esc).join('; '):'✓ Ready for final review and completion.')+'</p>';
 }
-function v3bComplete(){if(!v3aCurrent||!v3aPersist())return;const missing=v3bEligibility();if(missing.length){v3aGo(3);$('v3a-status').textContent='Cannot complete yet: '+missing.join('; ');return}
+function v3dCompleteRogue(){
+ const d=v3aCurrent,f=d.fields,ch=d.choices,missing=v3dRogueEligibility();if(missing.length){v3aGo(3);$('v3a-status').textContent='Cannot complete: '+missing.join('; ');return}
+ const old=d.libraryCharacterId?characterLibrary.characters.find(x=>x.id===d.libraryCharacterId&&x.creationStatus==='draft'):null;
+ const scores=Object.fromEntries(V3B_ABILITIES.map(k=>[k,ch.standardArray[k]+(k==='DEX'?2:k==='WIS'?1:0)]));const mod=k=>Math.floor((scores[k]-10)/2);
+ const data=blankCharacterData();data.sheet.abilities=scores;data.sheet.level=3;data.sheet.xp=900;data.sheet.speed=35;
+ const hp=8+(ch.rogueHpMethod==='average'?10:Number(ch.rogueHpRolls1)+Number(ch.rogueHpRolls2))+3*mod('CON');data.maxhp=Math.max(1,hp);data.hp=data.maxhp;data.hitdice=3;
+ data.sheet.ac=(ch.rogueArmor==='studded'?12:11)+mod('DEX');data.sheet.skills=Object.fromEntries([...new Set([...ch.rogueSkills,'Athletics','Survival','Perception'])].map(k=>[k,(ch.rogueExpertise||[]).includes(k)?2:1]));data.sheet.saves={DEX:true,INT:true};
+ data.sheet.languages='Common, Elvish, '+ch.rogueOutlanderLanguage;
+ data.sheet.tools='Thieves’ tools; one musical instrument (Outlander choice, enter with DM)';
+ data.sheet.other='Wood Elf: Darkvision, Fey Ancestry, Trance, Keen Senses, Mask of the Wild, Elf Weapon Training. Rogue: Sneak Attack 2d6, Cunning Action, Thieves’ Cant, Expertise ('+ch.rogueExpertise.join(', ')+'). Assassin: DM-reviewed custom subclass; confirm Assassinate and bonus proficiencies with your DM. Outlander: Wanderer; background skills Athletics and Survival. Proficiency bonus +2. Rogue weapons: simple weapons, hand crossbows, longswords, rapiers, shortswords. Armor: light.';
+ data.sheet.notes=[f.notes||'',f.customTraits?'Custom traits / DM notes: '+f.customTraits:'','Assassin subclass marked DM-reviewed; confirm subclass features, proficiencies, and equipment with your DM.'].filter(Boolean).join('\n');
+ data.arrows=20;data.items=[ch.rogueArmor==='studded'?'Studded leather armor':'Leather armor','Shortsword','Shortbow','20 arrows','Thieves’ tools','Explorer pack'];
+ const character={id:old?.id||'hero-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),name:f.name.trim(),species:'Wood Elf',className:'Rogue',subclass:'Assassin',background:'Outlander',edition:'2014',creationStatus:'complete',creator:{schemaVersion:3,originDraftId:d.id,concept:f.concept,notes:f.notes,customTraits:f.customTraits||'',choices:ch,validation:{ready:true,missing:[],ruleset:'2014 with DM-reviewed custom content',scope:'wood-elf-rogue-assassin-outlander-level3-alpha'}},data};
+ const next={...characterLibrary,characters:old?characterLibrary.characters.map(x=>x.id===old.id?character:x):[...characterLibrary.characters,character]};
+ try{localStorage.setItem(LIBRARY_KEY,JSON.stringify(next))}catch(e){$('v3a-status').textContent='Storage failed; draft preserved.';return}
+ characterLibrary=next;const remaining=v3aRead().filter(x=>x.id!==d.id);if(!v3aWrite(remaining)){$('v3a-status').textContent='Character completed, but draft cleanup failed. Export a backup.';return}
+ v3aCurrent=null;$('v3a-creator').classList.add('hidden');renderCharacterLibrary();alert('✧ Your Adventure Begins! ✧\n\n'+character.name+' is ready. Opening your character sheet.');openCharacter(character.id);
+}
+function v3bComplete(){if(!v3aCurrent||!v3aPersist())return;if(v3dIsRogue())return v3dCompleteRogue();const missing=v3bEligibility();if(missing.length){v3aGo(3);$('v3a-status').textContent='Cannot complete yet: '+missing.join('; ');return}
  const d=v3aCurrent,f=d.fields,ch=d.choices,old=d.libraryCharacterId?characterLibrary.characters.find(x=>x.id===d.libraryCharacterId&&x.creationStatus==='draft'):null;
  const scores=Object.fromEntries(V3B_ABILITIES.map(k=>[k,ch.standardArray[k]+1]));const mod=k=>Math.floor((scores[k]-10)/2);
  const data=blankCharacterData();data.sheet.abilities=scores;data.sheet.level=1;data.sheet.xp=0;data.sheet.speed=30;data.maxhp=Math.max(1,10+mod('CON'));data.hp=data.maxhp;data.hitdice=1;
@@ -738,7 +777,7 @@ function v3bComplete(){if(!v3aCurrent||!v3aPersist())return;const missing=v3bEli
  characterLibrary=next;const remaining=v3aRead().filter(x=>x.id!==d.id);if(!v3aWrite(remaining)){$('v3a-status').textContent='Character completed, but creator draft cleanup failed. Export a backup.';return}
  v3aCurrent=null;$('v3a-creator').classList.add('hidden');renderCharacterLibrary();alert('✧ Your Adventure Begins! ✧\n\n'+character.name+' is ready. Opening your character sheet.');openCharacter(character.id);
 }
-function v3aRender(){if(!v3aCurrent)return;$('v3a-guided').classList.toggle('secondary',v3aModeName!=='guided');$('v3a-manual').classList.toggle('secondary',v3aModeName!=='manual');$('v3a-steps').innerHTML=V3A_STEPS.map((n,i)=>'<button class="'+(i===v3aStep?'':'secondary')+'" onclick="v3aGo('+i+')">'+(i+1)+'. '+n+'</button>').join('');let content='';if(v3aModeName==='manual')content='<p class="creator-note">Manual mode: edit the complete draft directly.</p>'+v3aInput('Character concept','concept')+v3aInput('Name','name')+v3aInput('Species','species')+v3aInput('Class','className')+v3aInput('Background','background')+v3aInput('Starting level (1–20)','level','number')+v3aInput('Subclass / Oath','subclass')+v3aInput('Custom traits / DM notes','customTraits')+v3aInput('Notes','notes')+v3bAbilityUI()+v3bMechanicsUI();else if(v3aStep===0)content='<h3>The Spark</h3><p class="creator-note">Who might your adventurer become?</p>'+v3aInput('Character concept','concept');else if(v3aStep===1)content='<h3>Your Identity</h3>'+v3aInput('Name','name')+v3aInput('Species','species')+v3aInput('Class','className')+v3aInput('Background','background')+v3aInput('Starting level','level','number')+v3aInput('Subclass / Oath','subclass')+v3aInput('Custom traits / DM notes','customTraits');else if(v3aStep===2)content='<h3>Your Abilities</h3>'+v3bAbilityUI()+v3aInput('Character notes','notes');else if(v3aStep===3)content=v3bMechanicsUI();else content='<h3>Review Your Draft</h3><p class="creator-note">Review your choices. Only the validated level 1 Human Fighter Acolyte path can be finalized. Level 3 Rogue selections are saved as drafts pending full validation.</p>'+V3A_FIELDS.map(k=>'<p><strong>'+esc(k)+':</strong> '+esc(v3aCurrent.fields[k]||'Not selected')+'</p>').join('')+v3bAbilityUI()+v3bMechanicsUI();$('v3a-fields').innerHTML=content;$('v3a-status').textContent='Draft autosaves locally. Export a library backup to protect it.'}
+function v3aRender(){if(!v3aCurrent)return;$('v3a-guided').classList.toggle('secondary',v3aModeName!=='guided');$('v3a-manual').classList.toggle('secondary',v3aModeName!=='manual');$('v3a-steps').innerHTML=V3A_STEPS.map((n,i)=>'<button class="'+(i===v3aStep?'':'secondary')+'" onclick="v3aGo('+i+')">'+(i+1)+'. '+n+'</button>').join('');let content='';if(v3aModeName==='manual')content='<p class="creator-note">Manual mode: edit the complete draft directly.</p>'+v3aInput('Character concept','concept')+v3aInput('Name','name')+v3aInput('Species','species')+v3aInput('Class','className')+v3aInput('Background','background')+v3aInput('Starting level (1–20)','level','number')+v3aInput('Subclass / Oath','subclass')+v3aInput('Custom traits / DM notes','customTraits')+v3aInput('Notes','notes')+v3bAbilityUI()+v3bMechanicsUI();else if(v3aStep===0)content='<h3>The Spark</h3><p class="creator-note">Who might your adventurer become?</p>'+v3aInput('Character concept','concept');else if(v3aStep===1)content='<h3>Your Identity</h3>'+v3aInput('Name','name')+v3aInput('Species','species')+v3aInput('Class','className')+v3aInput('Background','background')+v3aInput('Starting level','level','number')+v3aInput('Subclass / Oath','subclass')+v3aInput('Custom traits / DM notes','customTraits');else if(v3aStep===2)content='<h3>Your Abilities</h3>'+v3bAbilityUI()+v3aInput('Character notes','notes');else if(v3aStep===3)content=v3bMechanicsUI();else content='<h3>Review Your Draft</h3><p class="creator-note">Review your choices. Validated completion paths: level 1 Human Fighter Acolyte, and level 3 Wood Elf Rogue Assassin Outlander with DM-reviewed custom subclass.</p>'+V3A_FIELDS.map(k=>'<p><strong>'+esc(k)+':</strong> '+esc(v3aCurrent.fields[k]||'Not selected')+'</p>').join('')+v3bAbilityUI()+v3bMechanicsUI();$('v3a-fields').innerHTML=content;$('v3a-status').textContent='Draft autosaves locally. Export a library backup to protect it.'}
 function v3aMode(mode){if(!['guided','manual'].includes(mode))return;v3aModeName=mode;v3aPersist();v3aRender()}
 function v3aGo(step){v3aStep=Math.max(0,Math.min(V3A_STEPS.length-1,step));v3aPersist();v3aRender()}
 function v3aBack(){v3aGo(v3aStep-1)}function v3aNext(){v3aGo(v3aStep+1)}
