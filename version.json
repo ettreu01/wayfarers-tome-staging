@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.24",
-  "notes": "Alpha 6.0.2: review Fix buttons navigate to the correct guided step before focusing and scrolling to the missing field. No storage migration."
+  "version": "3.0.0-alpha.3.25",
+  "notes": "Alpha 6.0.3: Ranger review offers requirement-specific Fix navigation, including Name to Identity. No storage migration."
 }

@@ -474,7 +474,7 @@ function rollDeathSave(){
 // Keep previous save key and fields intact for seamless migration from V2.2.
 
 // App releases are published by updating version.json alongside index.html.
-const APP_VERSION='3.0.0-alpha.3.24';
+const APP_VERSION='3.0.0-alpha.3.25';
 let pendingVersion=null, lastUpdateCheck=0, checkingUpdates=false, dismissedVersion=null;
 function versionParts(v){const m=String(v).match(/^(\d+)\.(\d+)\.(\d+)(?:-alpha\.(\d+)\.(\d+))?$/);return m?[Number(m[1]),Number(m[2]),Number(m[3]),Number(m[4]||0),Number(m[5]||0)]:null}
 function isNewerVersion(remote,local){const a=versionParts(remote),b=versionParts(local);if(!a||!b)return false;for(let i=0;i<a.length;i++){if(a[i]!==b[i])return a[i]>b[i]}return false}
@@ -992,7 +992,13 @@ function v3eReviewChecklist(){
  const r=v3gRogueRules(f);
  if(v3eRangerIntent()){
   const missing=wtRangerEligibility();
-  return '<div class="panel"><h3>Ranger Review · '+(missing.length?'Needs attention':'Ready')+'</h3>'+(missing.length?'<p class="creator-note">'+missing.map(x=>'○ '+esc(x)).join('; ')+'</p><button class="secondary" onclick="v3aGo(3)">Fix Ranger choices</button>':'<p class="creator-note">✓ All level 1 Ranger requirements satisfied. You can complete your character.</p>')+'</div>';
+  const rangerTarget=label=>{
+   if(label==='Character name')return [1,'v3a-name'];
+   if(label==='Six unique standard array scores')return [2,null];
+   if(['Ranger level 1 (levels 2–3 coming later)','Human or Wood Elf species','Acolyte or Outlander background','No Ranger archetype at level 1'].includes(label))return [1,null];
+   return [3,null];
+  };
+  return '<div class="panel"><h3>Ranger Review · '+(missing.length?'Needs attention':'Ready')+'</h3>'+(missing.length?'<p class="creator-note">Select Fix beside the missing requirement to open the correct step.</p>'+missing.map(label=>{const [step,field]=rangerTarget(label);return '<div class="row" style="padding:5px 0"><span>○ '+esc(label)+'</span><button class="secondary" onclick="v3aFixReview('+step+','+(field?"'"+field+"'":'null')+')">Fix</button></div>'}).join(''):'<p class="creator-note">✓ All level 1 Ranger requirements satisfied. You can complete your character.</p>')+'</div>';
  }
  const checks=rogue?[
  ['Character name',!!String(f.name||'').trim(),1],
