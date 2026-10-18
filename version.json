@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.34",
-  "notes": "Alpha 6.4.1.1: arrow ammunition synchronized between Gear inventory and Combat; preserves legacy Combat count during in-memory reconciliation."
+  "version": "3.0.0-alpha.3.35",
+  "notes": "Alpha 6.5: optional Physical Dice Mode with combat reference and collapsible Combat History. UI preferences are separate from character storage."
 }
