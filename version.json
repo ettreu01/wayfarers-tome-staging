@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.27",
-  "notes": "Alpha 6.2: Ranger level 2 HP, Fighting Style, two spells known, two spell slots with combat tracking and long-rest recovery. Level 3 not yet supported. No storage migration."
+  "version": "3.0.0-alpha.3.28",
+  "notes": "Alpha 6.3: level 3 Ranger, Hunter and Beast Master starter companion, level 3 HP and 3 first-level slots. No storage migration."
 }
