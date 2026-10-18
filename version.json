@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.16",
-  "notes": "Alpha 5.7: shared 2014 class, species, background, proficiency, Hit Dice, Sneak Attack and weapon proficiency rules foundation. Existing completion scope and storage unchanged."
+  "version": "3.0.0-alpha.3.17",
+  "notes": "Alpha 5.7.1: accurate Rogue weapon proficiency examples, guided language selections, and Expertise clarification. No storage migrations."
 }
