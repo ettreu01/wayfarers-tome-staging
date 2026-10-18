@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.12",
-  "notes": "V3.0B Alpha 5.5.1: hit dice display derived from class and level on Stats and Overview; no character data migration."
+  "version": "3.0.0-alpha.3.13",
+  "notes": "V3.0B Alpha 5.6: universal attack planner for character sheets, Rogue-only Sneak Attack and Assassin-only surprise critical; customizable weapons and modifiers. No character data migration."
 }
