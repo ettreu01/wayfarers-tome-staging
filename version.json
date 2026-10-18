@@ -1,1 +1,4 @@
-{"version":"3.0.0-alpha.3.18","notes":"Alpha 5.7.2: creator step auto-scroll and disabled duplicate Rogue skill choices. No storage migrations."}
+{
+  "version": "3.0.0-alpha.3.19",
+  "notes": "Alpha 5.8: concise read-only final review, fix links, and completion action at review. No storage migration."
+}
