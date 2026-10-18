@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.31",
-  "notes": "Alpha 6.4.3: open character at name and tabs at their headings; Adventurers/Settings accessible by scrolling upward. No storage migration."
+  "version": "3.0.0-alpha.3.32",
+  "notes": "Alpha 6.4.4: compact Adventurers icon beside character heading, balanced Settings control, improved top spacing and navigation. No storage migration."
 }
