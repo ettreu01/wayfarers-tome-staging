@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.21",
-  "notes": "Alpha 5.8.2: manual Name field deduplicated; full-viewport completion artwork. No storage migration."
+  "version": "3.0.0-alpha.3.22",
+  "notes": "Alpha 6.0: level 1 Ranger foundation (Human/Wood Elf, Acolyte/Outlander); simpler character completion; no storage migration."
 }
