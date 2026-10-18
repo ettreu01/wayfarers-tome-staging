@@ -1,5 +1,5 @@
 // Wayfarer’s Tome V3.0B Alpha 5.1 — offline app shell, same-origin only.
-const CACHE='wayfarers-tome-staging-shell-v3.0.0-alpha.3.10';
+const CACHE='wayfarers-tome-staging-shell-v3.0.0-alpha.3.11';
 const SHELL=['./','./index.html'];
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting()));
