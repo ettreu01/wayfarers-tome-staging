@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.26",
-  "notes": "Alpha 6.1: Ranger level 1 Favored Enemy and Natural Explorer rules, humanoid race selection, optional favored enemy language, and level 2 Fighting Style preview. No storage migration."
+  "version": "3.0.0-alpha.3.27",
+  "notes": "Alpha 6.2: Ranger level 2 HP, Fighting Style, two spells known, two spell slots with combat tracking and long-rest recovery. Level 3 not yet supported. No storage migration."
 }
