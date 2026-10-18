@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.25",
-  "notes": "Alpha 6.0.3: Ranger review offers requirement-specific Fix navigation, including Name to Identity. No storage migration."
+  "version": "3.0.0-alpha.3.26",
+  "notes": "Alpha 6.1: Ranger level 1 Favored Enemy and Natural Explorer rules, humanoid race selection, optional favored enemy language, and level 2 Fighting Style preview. No storage migration."
 }

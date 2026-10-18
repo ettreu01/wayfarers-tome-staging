@@ -474,7 +474,7 @@ function rollDeathSave(){
 // Keep previous save key and fields intact for seamless migration from V2.2.
 
 // App releases are published by updating version.json alongside index.html.
-const APP_VERSION='3.0.0-alpha.3.25';
+const APP_VERSION='3.0.0-alpha.3.26';
 let pendingVersion=null, lastUpdateCheck=0, checkingUpdates=false, dismissedVersion=null;
 function versionParts(v){const m=String(v).match(/^(\d+)\.(\d+)\.(\d+)(?:-alpha\.(\d+)\.(\d+))?$/);return m?[Number(m[1]),Number(m[2]),Number(m[3]),Number(m[4]||0),Number(m[5]||0)]:null}
 function isNewerVersion(remote,local){const a=versionParts(remote),b=versionParts(local);if(!a||!b)return false;for(let i=0;i<a.length;i++){if(a[i]!==b[i])return a[i]>b[i]}return false}
@@ -831,6 +831,7 @@ function wtRangerEligibility(){
  if(selected.length!==3||new Set(selected).size!==3||selected.some(k=>!WT_RANGER_SKILLS.includes(k)||granted.includes(k)||(species==='wood elf'&&k==='Perception')))missing.push('Three available Ranger skills (no duplicates)');
  if(!['leather','scale'].includes(c.rangerArmor))missing.push('Starting armor');
  if(!String(c.rangerFavoredEnemy||'').trim())missing.push('Favored Enemy choice');
+ if(c.rangerFavoredEnemy==='Humanoids (two races; specify with DM)'&&(!String(c.rangerHumanoidRace1||'').trim()||!String(c.rangerHumanoidRace2||'').trim()||String(c.rangerHumanoidRace1).trim().toLowerCase()===String(c.rangerHumanoidRace2).trim().toLowerCase()))missing.push('Two different humanoid races');
  if(!String(c.rangerTerrain||'').trim())missing.push('Natural Explorer terrain');
  if(species==='human'&&!v3hLanguageValid('humanLanguage',1))missing.push('Human additional language');
  if(bg==='acolyte'&&!v3hLanguageValid('acolyteLanguages',2))missing.push('Two Acolyte languages');
@@ -846,6 +847,7 @@ function wtRangerToggle(skill,checked){
  a=checked?[...new Set([...a,skill])]:a.filter(k=>k!==skill);
  v3aCurrent.choices.rangerSkills=a;if(v3aPersist())v3aRender();
 }
+function wtRangerChoiceText(key,value){if(!v3aCurrent||!['rangerHumanoidRace1','rangerHumanoidRace2','rangerEnemyLanguage'].includes(key))return;v3aCurrent.choices[key]=value;v3aPersist();}
 function wtRangerUI(){
  const f=v3aCurrent.fields,c=v3aCurrent.choices||{},bg=String(f.background||'').toLowerCase(),species=String(f.species||'').toLowerCase(),granted=wt2014Background(bg)?.skills||[];
  let html='<h3>Ranger · Level 1 (2014)</h3><p class="creator-note">Ranger uses d10 Hit Dice, Strength and Dexterity saves, light and medium armor, shields, and simple and martial weapons. Fighting Style and spells begin at level 2; archetype begins at level 3.</p>';
@@ -854,10 +856,17 @@ function wtRangerUI(){
  html+='<label>Starting armor</label><select onchange="v3bChoiceCommitted(\'rangerArmor\',this.value)"><option value="">Choose armor</option><option value="leather" '+(c.rangerArmor==='leather'?'selected':'')+'>Leather armor (AC 11 + DEX)</option><option value="scale" '+(c.rangerArmor==='scale'?'selected':'')+'>Scale mail (AC 14 + DEX, max +2; Stealth disadvantage)</option></select>';
  html+='<label>Favored Enemy (level 1)</label><select onchange="v3bChoiceCommitted(\'rangerFavoredEnemy\',this.value)"><option value="">Choose a type</option>';
  for(const k of ['Aberrations','Beasts','Celestials','Constructs','Dragons','Elementals','Fey','Fiends','Giants','Monstrosities','Oozes','Plants','Undead','Humanoids (two races; specify with DM)'])html+='<option value="'+esc(k)+'" '+(c.rangerFavoredEnemy===k?'selected':'')+'>'+esc(k)+'</option>';
- html+='</select><p class="creator-note">Favored Enemy grants tracking and knowledge benefits, not automatic bonus damage. For humanoids, agree on two races with your DM.</p>';
+ html+='</select><p class="creator-note"><strong>Favored Enemy:</strong> Advantage on Wisdom (Survival) checks to track your favored enemies and on Intelligence checks to recall information about them. This does not grant bonus attack damage.</p>';
+ if(c.rangerFavoredEnemy==='Humanoids (two races; specify with DM)'){
+  html+='<label>First humanoid race</label><input value="'+esc(c.rangerHumanoidRace1||'')+'" placeholder="e.g., Orcs" oninput="wtRangerChoiceText(\'rangerHumanoidRace1\',this.value)">';
+  html+='<label>Second humanoid race (different)</label><input value="'+esc(c.rangerHumanoidRace2||'')+'" placeholder="e.g., Goblins" oninput="wtRangerChoiceText(\'rangerHumanoidRace2\',this.value)">';
+ }
+ html+='<p class="creator-note">You may also learn one language spoken by your favored enemies, if they speak one. Coordinate the language with your DM; this is separate from species/background languages.</p>';
+ html+='<label>Favored Enemy language (optional)</label><input value="'+esc(c.rangerEnemyLanguage||'')+'" placeholder="DM-approved language, if applicable" oninput="wtRangerChoiceText(\'rangerEnemyLanguage\',this.value)">';
  html+='<label>Natural Explorer (level 1)</label><select onchange="v3bChoiceCommitted(\'rangerTerrain\',this.value)"><option value="">Choose favored terrain</option>';
  for(const k of ['Arctic','Coast','Desert','Forest','Grassland','Mountain','Swamp','Underdark'])html+='<option value="'+k+'" '+(c.rangerTerrain===k?'selected':'')+'>'+k+'</option>';
- html+='</select>';
+ html+='</select><p class="creator-note"><strong>Natural Explorer:</strong> Double proficiency bonus on Intelligence or Wisdom checks related to your favored terrain when using a proficient skill. While traveling for an hour or more there, difficult terrain does not slow your group; your group cannot become lost except by magical means; you remain alert to danger while doing another activity; you can move stealthily at a normal pace when alone; you find twice as much food while foraging; and when tracking creatures you learn their exact number, sizes, and how long ago they passed.</p>';
+ html+='<div class="panel"><h4>Coming at level 2 · Fighting Style</h4><p class="creator-note">Choose from Archery (+2 ranged weapon attack rolls), Defense (+1 AC while wearing armor), Dueling (+2 damage with a one-handed melee weapon when no other weapon is held), or Two-Weapon Fighting (add ability modifier to off-hand damage). This is a preview, not an active level 1 feature.</p></div>';
  if(species==='human')html+=v3hLanguageField('humanLanguage','Human additional language');
  if(bg==='acolyte')html+=v3hLanguageField('acolyteLanguages','Two Acolyte languages',2);
  if(bg==='outlander')html+=v3hLanguageField('rogueOutlanderLanguage','Outlander additional language');
@@ -873,9 +882,9 @@ function wtCompleteRanger(){
  data.sheet.ac=ch.rangerArmor==='scale'?14+Math.min(2,mod('DEX')):11+mod('DEX');
  const bgSkills=wt2014Background(f.background)?.skills||[],skills=[...ch.rangerSkills,...bgSkills,...(String(f.species).toLowerCase()==='wood elf'?['Perception']:[])];
  data.sheet.skills=Object.fromEntries([...new Set(skills)].map(k=>[k,1]));data.sheet.saves={STR:true,DEX:true};
- data.sheet.languages=wtFinalLanguages(f,ch);
+ data.sheet.languages=[...new Map([...wtFinalLanguages(f,ch).split(',').map(x=>x.trim()).filter(Boolean),...(String(ch.rangerEnemyLanguage||'').trim()?[String(ch.rangerEnemyLanguage).trim()]:[])].map(x=>[x.toLowerCase(),x])).values()].join(', ');
  data.sheet.tools=String(f.background).toLowerCase()==='outlander'?'One musical instrument (choose with DM)':'';
- data.sheet.other='Ranger level 1: Favored Enemy ('+ch.rangerFavoredEnemy+'), Natural Explorer ('+ch.rangerTerrain+'). Ranger saving throws: STR and DEX. Armor: light, medium, shields. Weapons: simple and martial. Ranger spellcasting and Fighting Style begin at level 2. '+(String(f.background).toLowerCase()==='outlander'?'Outlander: Wanderer.':'Acolyte: Shelter of the Faithful.');
+ data.sheet.other='Ranger level 1: Favored Enemy ('+ch.rangerFavoredEnemy+(ch.rangerFavoredEnemy.startsWith('Humanoids')?' — '+ch.rangerHumanoidRace1+' and '+ch.rangerHumanoidRace2:'')+'): advantage on Survival checks to track them and Intelligence checks to recall information about them; no bonus damage. Natural Explorer ('+ch.rangerTerrain+'): double proficiency on proficient INT/WIS checks related to terrain; after 1 hour of travel there: no nonmagical getting lost, no difficult terrain slowdown, remain alert during other tasks, solo stealth at normal pace, double foraging food, and learn number/size/age of tracked creatures. Ranger saving throws: STR and DEX. Armor: light, medium, shields. Weapons: simple and martial. Ranger spellcasting and Fighting Style begin at level 2. '+(String(f.background).toLowerCase()==='outlander'?'Outlander: Wanderer.':'Acolyte: Shelter of the Faithful.');
  data.sheet.notes=[f.notes||'',f.customTraits||'','Confirm Favored Enemy details and starting equipment with your DM.'].filter(Boolean).join('\n');
  data.items=[ch.rangerArmor==='scale'?'Scale mail':'Leather armor','Two shortswords','Longbow','20 arrows','Explorer pack'];
  const character={id:old?.id||'hero-'+Date.now()+'-'+Math.random().toString(36).slice(2,8),name:f.name.trim(),species:f.species,className:'Ranger',subclass:'',background:f.background,edition:'2014',creationStatus:'complete',creator:{schemaVersion:3,originDraftId:d.id,concept:f.concept,notes:f.notes,choices:ch,validation:{ready:true,missing:[],ruleset:'2014 Ranger level 1 foundation',scope:'ranger-human-woodelf-acolyte-outlander-level1-alpha'}},data};
