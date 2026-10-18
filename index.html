@@ -415,7 +415,7 @@ function rollDeathSave(){
 // Keep previous save key and fields intact for seamless migration from V2.2.
 
 // App releases are published by updating version.json alongside index.html.
-const APP_VERSION='3.0.0-alpha.3.3';
+const APP_VERSION='3.0.0-alpha.3.4';
 let pendingVersion=null, lastUpdateCheck=0, checkingUpdates=false, dismissedVersion=null;
 function versionParts(v){return /^\d+\.\d+\.\d+$/.test(v)?v.split('.').map(Number):null}
 function isNewerVersion(remote,local){const a=versionParts(remote),b=versionParts(local);if(!a||!b)return false;for(let i=0;i<3;i++){if(a[i]!==b[i])return a[i]>b[i]}return false}
@@ -616,8 +616,20 @@ function v3aRead(){try{const d=JSON.parse(localStorage.getItem(V3A_DRAFT_KEY)||'
 function v3aWrite(list){try{localStorage.setItem(V3A_DRAFT_KEY,JSON.stringify(list));return true}catch(e){$('v3a-status').textContent='Draft could not be saved. Check device storage and export a backup.';return false}}
 function v3aId(){return 'draft-'+Date.now()+'-'+Math.random().toString(36).slice(2,10)}
 function v3aNew(){return {id:v3aId(),schemaVersion:3,status:'draft',mode:'guided',step:0,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString(),fields:{concept:'',name:'',species:'',className:'',background:'',level:1,notes:'',subclass:'',customTraits:''},choices:{},validation:{}}}
-function v3aOpen(id){const list=v3aRead();v3aCurrent=id?list.find(d=>d.id===id):null;if(!v3aCurrent){v3aCurrent=v3aNew();if(!v3aWrite([...list,v3aCurrent]))return}v3aStep=v3aCurrent.step||0;v3aModeName=v3aCurrent.mode||'guided';$('v3a-creator').classList.remove('hidden');$('new-character-form').classList.add('hidden');v3aRender();$('v3a-creator').scrollIntoView({block:'start'})}
-function v3aPersist(){if(!v3aCurrent)return false;const list=v3aRead();const copy=JSON.parse(JSON.stringify(v3aCurrent));copy.step=v3aStep;copy.mode=v3aModeName;copy.updatedAt=new Date().toISOString();const i=list.findIndex(d=>d.id===copy.id);if(i<0)list.push(copy);else list[i]=copy;if(!v3aWrite(list))return false;v3aCurrent=copy;return true}
+function v3aOpen(id){const list=v3aRead();v3aCurrent=id?list.find(d=>d.id===id):null;if(!v3aCurrent){v3aCurrent=v3aNew()}v3aStep=v3aCurrent.step||0;v3aModeName=v3aCurrent.mode||'guided';$('v3a-creator').classList.remove('hidden');$('new-character-form').classList.add('hidden');v3aRender();$('v3a-creator').scrollIntoView({block:'start'})}
+function v3aHasMeaningfulInput(d){
+ if(!d)return false;
+ const f=d.fields||{};
+ // Level defaults to 1, and navigating/mode switching alone is not character input.
+ if(['concept','name','species','className','background','notes','subclass','customTraits'].some(k=>String(f[k]||'').trim()))return true;
+ if(Number(f.level||1)!==1)return true;
+ const choices=d.choices||{};
+ return Object.values(choices).some(v=>Array.isArray(v)?v.length>0:(v!==null&&v!==undefined&&String(v).trim()!==''));
+}
+function v3aPersist(){if(!v3aCurrent)return false;
+ // Do not create a saved draft just because the creator was opened or navigated.
+ if(!v3aHasMeaningfulInput(v3aCurrent)&&!v3aRead().some(d=>d.id===v3aCurrent.id))return true;
+ const list=v3aRead();const copy=JSON.parse(JSON.stringify(v3aCurrent));copy.step=v3aStep;copy.mode=v3aModeName;copy.updatedAt=new Date().toISOString();const i=list.findIndex(d=>d.id===copy.id);if(i<0)list.push(copy);else list[i]=copy;if(!v3aWrite(list))return false;v3aCurrent=copy;return true}
 function v3aSet(field,value){if(!v3aCurrent||!V3A_FIELDS.includes(field))return;v3aCurrent.fields[field]=field==='level'?Math.min(20,Math.max(1,Number(value)||1)):String(value).slice(0,3000);if(v3aPersist())$('v3a-status').textContent='Draft saved on this device.'}
 function v3aInput(label,key,type='text'){const value=v3aCurrent.fields[key]??'';return '<label for="v3a-'+key+'">'+label+'</label><input id="v3a-'+key+'" type="'+type+'" '+(type==='number'?'min="1" max="20" ':'')+'value="'+esc(value)+'" oninput="v3aSet(\''+key+'\',this.value)">'}
 function v3bAbilityUI(){

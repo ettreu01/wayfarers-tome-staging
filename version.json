@@ -1,4 +1,4 @@
 {
-  "version": "3.0.0-alpha.3.3",
-  "notes": "V3.0B Alpha 3: six level 3 campaign starter drafts and custom traits; completion remains limited to validated level 1 SRD path."
+  "version": "3.0.0-alpha.3.4",
+  "notes": "V3.0B Alpha 3.1: do not create blank drafts on opening or navigating the creator; existing and template drafts preserved."
 }
